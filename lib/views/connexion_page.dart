@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'inscription_page.dart';
 
 class Connexion extends StatelessWidget {
+  static const routeName = 'connexion';
   @override
   Widget build(BuildContext context) {
     final heightdevice = MediaQuery.of(context).size.height;

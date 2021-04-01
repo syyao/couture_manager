@@ -150,13 +150,18 @@ class Inscription extends StatelessWidget {
                 ),
               ),
               SizedBox(height: heightdevice / 40),
-              Card(
-                color: Color.fromRGBO(56, 182, 255, 1),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    "S'inscrire",
-                    style: TextStyle(color: Colors.white),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(Connexion.routeName);
+                },
+                child: Card(
+                  color: Color.fromRGBO(56, 182, 255, 1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      "S'inscrire",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
@@ -185,7 +190,7 @@ class Inscription extends StatelessWidget {
               SizedBox(height: heightdevice / 40),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Connexion.routeName);
                 },
                 child: Container(
                   width: widthdevice / 1.2,

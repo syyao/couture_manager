@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       home: Connexion(),
       routes: {
         Inscription.routeName: (context) => Inscription(),
+        Connexion.routeName: (context) => Connexion(),
       },
     );
   }
