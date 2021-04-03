@@ -1,4 +1,5 @@
 import 'package:couture_manager/views/connexion_page.dart';
+import 'package:couture_manager/views/homePage.dart';
 import 'package:flutter/material.dart';
 
 class Inscription extends StatelessWidget {
@@ -139,9 +140,9 @@ class Inscription extends StatelessWidget {
                       filled: true,
                       border: InputBorder.none,
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(56, 182, 255, 1),
-                              width: 0.5)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
+                      ),
                       hintText: " confirmez mot de passe",
                       suffixIcon: Icon(
                         Icons.visibility_off,
@@ -152,7 +153,7 @@ class Inscription extends StatelessWidget {
               SizedBox(height: heightdevice / 40),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed(Connexion.routeName);
+                   Navigator.of(context).pushNamed(HomePage.routeName);
                 },
                 child: Card(
                   color: Color.fromRGBO(56, 182, 255, 1),

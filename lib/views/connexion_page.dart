@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'homePage.dart';
 import 'inscription_page.dart';
 
 class Connexion extends StatelessWidget {
@@ -63,13 +64,18 @@ class Connexion extends StatelessWidget {
                 ),
               ),
               SizedBox(height: heightdevice / 40),
-              Card(
-                color: Color.fromRGBO(56, 182, 255, 1),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    "Se connecter",
-                    style: TextStyle(color: Colors.white),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(HomePage.routeName);
+                },
+                child: Card(
+                  color: Color.fromRGBO(56, 182, 255, 1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      "Se connecter",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
@@ -103,7 +109,7 @@ class Connexion extends StatelessWidget {
                 child: Container(
                   width: widthdevice / 1.2,
                   child: Text(
-                    "Inscrivez vous ?",
+                    "Inscrivez vous",
                     textAlign: TextAlign.right,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),

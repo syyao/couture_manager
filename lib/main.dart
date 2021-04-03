@@ -1,4 +1,5 @@
 import 'package:couture_manager/views/connexion_page.dart';
+import 'package:couture_manager/views/homePage.dart';
 import 'package:flutter/material.dart';
 
 import 'views/inscription_page.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         Inscription.routeName: (context) => Inscription(),
         Connexion.routeName: (context) => Connexion(),
+        HomePage.routeName: (context) => HomePage(),
       },
     );
   }
