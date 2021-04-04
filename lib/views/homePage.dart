@@ -1,3 +1,4 @@
+import 'package:couture_manager/views/detail_Commande.dart';
 import 'package:flutter/material.dart';
 
 import 'drawerView.dart';
@@ -31,54 +32,69 @@ class HomePage extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  width: widthDevice / 1.2,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(4, 4),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sydney Yao',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, DetailCommande.routeName);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    width: widthDevice / 1.2,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(4, 4),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                """Sydney Yao""",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                '0141270085',
+                              ),
+                              Text(
+                                '3 avril 18:41',
+                                style: TextStyle(),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(56, 182, 255, 1),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Text(
+                                  'rendu',
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            '0141270085',
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Container(
+                            height: heightDevice / 8,
+                            width: heightDevice / 7,
+                            decoration: BoxDecoration(
+                                color: Colors.blue.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(15)),
                           ),
-                          Text(
-                            '3 avril 18:41',
-                            style: TextStyle(),
-                          ),
-                          Text(
-                            'rendu',
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: heightDevice / 8,
-                        width: heightDevice / 8,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(5)),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -87,7 +103,11 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add, color: Colors.white),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 25,
+        ),
         onPressed: () {},
       ),
     );

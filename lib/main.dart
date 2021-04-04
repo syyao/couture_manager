@@ -1,4 +1,5 @@
 import 'package:couture_manager/views/connexion_page.dart';
+import 'package:couture_manager/views/detail_Commande.dart';
 import 'package:couture_manager/views/homePage.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color.fromRGBO(56, 182, 255, 1),
         accentColor: Color.fromRGBO(56, 182, 255, 1),
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
         Inscription.routeName: (context) => Inscription(),
         Connexion.routeName: (context) => Connexion(),
         HomePage.routeName: (context) => HomePage(),
+        DetailCommande.routeName: (context) => DetailCommande(),
       },
     );
   }
