@@ -51,8 +51,9 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Expanded(
+                        Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -84,14 +85,15 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 20),
-                        Expanded(
-                          child: Container(
-                            height: heightDevice / 8,
-                            width: heightDevice / 7,
-                            decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(15)),
-                          ),
+                        Container(
+                          height: heightDevice / 6,
+                          width: heightDevice / 6,
+                          decoration: BoxDecoration(
+                              color: Colors.blue.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(15)),
+                          //   child: Image(
+                          //     image: AssetImage("images/pantalon.jpg"),
+                          // ),
                         )
                       ],
                     ),
