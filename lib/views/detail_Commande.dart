@@ -81,23 +81,31 @@ class DetailCommande extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'A rendre avant le : ',
-                      style: TextStyle(color: Colors.grey),
+                      'A rendre le: ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                     Text(
                       "4 Avril 13:17",
+                      style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 Text(
-                  "Description",
+                  "Informations",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Color.fromRGBO(56, 182, 255, 1),
                   ),
-                )
+                ),
+                SizedBox(height: 10),
+                Container(
+                    child: Text(
+                        """chemise manche longue avec deux poches sur le cotéchemise manche longue avec deux poches sur le cotéchemise manche longue avec deux poches sur le cotéchemise manche longue avec deux poches sur le coté"""))
               ],
             ),
           )

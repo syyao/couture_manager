@@ -1,9 +1,11 @@
+import 'package:couture_manager/views/client_page.dart';
 import 'package:couture_manager/views/connexion_page.dart';
 import 'package:couture_manager/views/detail_Commande.dart';
 import 'package:couture_manager/views/homePage.dart';
 import 'package:flutter/material.dart';
 
 import 'views/inscription_page.dart';
+import 'views/profil_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
         Connexion.routeName: (context) => Connexion(),
         HomePage.routeName: (context) => HomePage(),
         DetailCommande.routeName: (context) => DetailCommande(),
+        ProfilPage.routeName: (context) => ProfilPage(),
+        ClientPage.routeName: (context) => ClientPage(),
       },
     );
   }

@@ -1,10 +1,9 @@
-import 'package:couture_manager/views/detail_Commande.dart';
 import 'package:flutter/material.dart';
 
 import 'drawerView.dart';
 
-class HomePage extends StatelessWidget {
-  static const routeName = "homePage";
+class ClientPage extends StatelessWidget {
+  static const routeName = 'client';
   @override
   Widget build(BuildContext context) {
     final widthDevice = MediaQuery.of(context).size.width;
@@ -14,11 +13,8 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
-        actions: [
-          IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
-        ],
         title: Text(
-          "Mes commandes",
+          "Mes cLients",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -34,7 +30,7 @@ class HomePage extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, DetailCommande.routeName);
+                    //             Navigator.pushNamed(context, DetailClient.routeName);
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
@@ -63,40 +59,19 @@ class HomePage extends StatelessWidget {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                'N° Tel: 0141270085',
-                              ),
-                              Text(
-                                '3 avril 18:41',
+                                'Entré le :3 avril 18:41',
                                 style: TextStyle(),
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.check_rounded,
-                                    color: Colors.green,
-                                    size: 20,
-                                  ),
-                                  Text(
-                                    'Rendu',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  )
-                                ],
+                              Text(
+                                'N° Tel: 0141270085',
                               ),
                             ],
                           ),
                         ),
                         SizedBox(width: 20),
-                        Container(
-                          height: heightDevice / 6,
-                          width: heightDevice / 6,
-                          decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(15)),
-                          //   child: Image(
-                          //     image: AssetImage("images/pantalon.jpg"),
-                          // ),
-                        )
+                        IconButton(
+                            icon: Icon(Icons.info_outline_rounded),
+                            onPressed: () {})
                       ],
                     ),
                   ),
@@ -110,7 +85,7 @@ class HomePage extends StatelessWidget {
         child: Icon(
           Icons.add,
           color: Colors.white,
-          size: 20,
+          size: 25,
         ),
         onPressed: () {},
       ),

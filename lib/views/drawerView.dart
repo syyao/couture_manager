@@ -1,4 +1,8 @@
+import 'package:couture_manager/views/client_page.dart';
+import 'package:couture_manager/views/homePage.dart';
 import 'package:flutter/material.dart';
+
+import 'profil_page.dart';
 
 class HomeDrawer extends StatelessWidget {
   @override
@@ -29,30 +33,41 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
             SizedBox(height: heightDevice / 5),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.shopping_basket_rounded,
-                    color: Colors.black,
-                  ),
-                  SizedBox(width: 10),
-                  Text('Mes commandes', style: TextStyle(color: Colors.black))
-                ],
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, HomePage.routeName);
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.shopping_basket_rounded,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Mes commandes', style: TextStyle(color: Colors.black))
+                  ],
+                ),
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.person,
-                    color: Colors.black,
-                  ),
-                  SizedBox(width: 10),
-                  Text('Mon profil', style: TextStyle(color: Colors.black))
-                ],
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, ProfilPage.routeName);
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Mon profil', style: TextStyle(color: Colors.black))
+                  ],
+                ),
               ),
             ),
             Container(
@@ -68,17 +83,22 @@ class HomeDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.people,
-                    color: Colors.black,
-                  ),
-                  SizedBox(width: 10),
-                  Text('Mes clients', style: TextStyle(color: Colors.black))
-                ],
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, ClientPage.routeName);
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.people,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Mes clients', style: TextStyle(color: Colors.black))
+                  ],
+                ),
               ),
             ),
             Spacer(),
