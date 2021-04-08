@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'detailClients.dart';
 import 'drawerView.dart';
 
 class ClientPage extends StatelessWidget {
@@ -14,7 +15,7 @@ class ClientPage extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
-          "Mes cLients",
+          "Mes clients",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -30,7 +31,7 @@ class ClientPage extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    //             Navigator.pushNamed(context, DetailClient.routeName);
+                    Navigator.pushNamed(context, DetailClient.routeName);
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
