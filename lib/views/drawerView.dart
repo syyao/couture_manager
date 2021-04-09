@@ -1,4 +1,5 @@
 import 'package:couture_manager/views/client_page.dart';
+import 'package:couture_manager/views/historiquePage.dart';
 import 'package:couture_manager/views/homePage.dart';
 import 'package:flutter/material.dart';
 
@@ -70,17 +71,23 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.bookmark,
-                    color: Colors.black,
-                  ),
-                  SizedBox(width: 10),
-                  Text('Historique', style: TextStyle(color: Colors.black))
-                ],
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, HistoriquePage.routeName);
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.bookmark,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Historique', style: TextStyle(color: Colors.black))
+                  ],
+                ),
               ),
             ),
             InkWell(

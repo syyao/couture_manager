@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         actions: [
-          IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
+          //     IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
         ],
         title: Text(
           "Mes commandes",
