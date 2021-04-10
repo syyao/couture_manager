@@ -1,12 +1,22 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import 'detail_Commande.dart';
 import 'drawerView.dart';
 
+List<String> listCLients = [
+  "Sydney",
+  "Yao",
+  "Nath",
+  "Oceane",
+  "Samson",
+  "Tom",
+  "Nath",
+  "Boris"
+];
+
 class HistoriquePage extends StatelessWidget {
   static const routeName = 'historique';
+
   @override
   Widget build(BuildContext context) {
     final heightDevice = MediaQuery.of(context).size.height;
@@ -29,7 +39,7 @@ class HistoriquePage extends StatelessWidget {
           child: ListView.separated(
             separatorBuilder: (BuildContext context, int index) =>
                 SizedBox(height: 10),
-            itemCount: 10,
+            itemCount: listCLients.length,
             itemBuilder: (context, i) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +70,7 @@ class HistoriquePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  """Sydney Yao""",
+                                  listCLients[i],
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),

@@ -2,8 +2,10 @@ import 'package:couture_manager/views/client_page.dart';
 import 'package:couture_manager/views/connexion_page.dart';
 import 'package:couture_manager/views/detailClients.dart';
 import 'package:couture_manager/views/detail_Commande.dart';
+import 'package:couture_manager/views/formulaire_commande.dart';
 import 'package:couture_manager/views/historiquePage.dart';
 import 'package:couture_manager/views/homePage.dart';
+import 'package:couture_manager/views/new_commande.dart';
 import 'package:flutter/material.dart';
 
 import 'views/inscription_page.dart';
@@ -33,7 +35,9 @@ class MyApp extends StatelessWidget {
         ProfilPage.routeName: (context) => ProfilPage(),
         ClientPage.routeName: (context) => ClientPage(),
         DetailClient.routeName: (context) => DetailClient(),
-        HistoriquePage.routeName: (context) => HistoriquePage()
+        HistoriquePage.routeName: (context) => HistoriquePage(),
+        NewCommande.routeName: (context) => NewCommande(),
+        FormCommande.routeName: (context) => FormCommande(),
       },
     );
   }

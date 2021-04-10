@@ -1,10 +1,28 @@
 import 'package:couture_manager/views/detail_Commande.dart';
+import 'package:couture_manager/views/new_commande.dart';
 import 'package:flutter/material.dart';
 
 import 'drawerView.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const routeName = "homePage";
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<String> listCLients = [
+    "Sydney",
+    "Yao",
+    "Nath",
+    "Oceane",
+    "Samson",
+    "Tom",
+    "Nath",
+    "Boris"
+  ];
+
   @override
   Widget build(BuildContext context) {
     final widthDevice = MediaQuery.of(context).size.width;
@@ -27,7 +45,7 @@ class HomePage extends StatelessWidget {
         child: ListView.separated(
           separatorBuilder: (BuildContext context, int index) =>
               SizedBox(height: 10),
-          itemCount: 10,
+          itemCount: listCLients.length,
           itemBuilder: (context, i) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -37,11 +55,11 @@ class HomePage extends StatelessWidget {
                     Navigator.pushNamed(context, DetailCommande.routeName);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(10),
                     width: widthDevice / 1.2,
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
                           offset: Offset(4, 4),
@@ -53,12 +71,12 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Flexible(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                """Sydney Yao""",
+                                listCLients[i],
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -87,15 +105,16 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 20),
-                        Container(
-                          height: heightDevice / 6,
-                          width: heightDevice / 6,
-                          decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(15)),
-                          //   child: Image(
-                          //     image: AssetImage("images/pantalon.jpg"),
-                          // ),
+                        Expanded(
+                          child: Container(
+                            height: heightDevice / 6,
+                            decoration: BoxDecoration(
+                                color: Colors.blue.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10)),
+                            //   child: Image(
+                            //     image: AssetImage("images/pantalon.jpg"),
+                            // ),
+                          ),
                         )
                       ],
                     ),
@@ -112,7 +131,9 @@ class HomePage extends StatelessWidget {
           color: Colors.white,
           size: 20,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(NewCommande.routeName);
+        },
       ),
     );
   }

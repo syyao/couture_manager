@@ -1,7 +1,77 @@
 import 'package:flutter/material.dart';
 
-class DetailCommande extends StatelessWidget {
+class DetailCommande extends StatefulWidget {
   static const routeName = "DetailCommande";
+
+  @override
+  _DetailCommandeState createState() => _DetailCommandeState();
+}
+
+class _DetailCommandeState extends State<DetailCommande> {
+  void showModelePage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            iconTheme: IconThemeData(
+              color: Color.fromRGBO(56, 182, 255, 1),
+            ),
+            elevation: 0,
+            title: Text(
+              'modèle',
+              style: TextStyle(
+                color: Color.fromRGBO(56, 182, 255, 1),
+              ),
+            ),
+          ),
+          body: Center(
+            child: Hero(
+              tag: 'model',
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                color: Colors.blue.withOpacity(0.1),
+                height: 400,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showTissuPage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => Scaffold(
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Color.fromRGBO(56, 182, 255, 1),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Text(
+              'Tissu',
+              style: TextStyle(
+                color: Color.fromRGBO(56, 182, 255, 1),
+              ),
+            ),
+          ),
+          body: Center(
+            child: Hero(
+              tag: 'tissu',
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                color: Colors.blue.withOpacity(0.1),
+                height: 400,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final heigthDevice = MediaQuery.of(context).size.height;
@@ -29,15 +99,23 @@ class DetailCommande extends StatelessWidget {
                     "Modèle",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    height: heigthDevice / 5,
-                    width: heigthDevice / 5,
-                    decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(15)),
-                    //   child: Image(
-                    //     image: AssetImage("images/pantalon.jpg"),
-                    // ),
+                  InkWell(
+                    onTap: () {
+                      showModelePage(context);
+                    },
+                    child: Hero(
+                      tag: 'model',
+                      child: Container(
+                        height: heigthDevice / 5,
+                        width: heigthDevice / 5,
+                        decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15)),
+                        //   child: Image(
+                        //     image: AssetImage("images/pantalon.jpg"),
+                        // ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -47,15 +125,23 @@ class DetailCommande extends StatelessWidget {
                     "Tissu",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    height: heigthDevice / 5,
-                    width: heigthDevice / 5,
-                    decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(15)),
-                    //   child: Image(
-                    //     image: AssetImage("images/pantalon.jpg"),
-                    // ),
+                  InkWell(
+                    onTap: () {
+                      showTissuPage(context);
+                    },
+                    child: Hero(
+                      tag: 'tissu',
+                      child: Container(
+                        height: heigthDevice / 5,
+                        width: heigthDevice / 5,
+                        decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15)),
+                        //   child: Image(
+                        //     image: AssetImage("images/pantalon.jpg"),
+                        // ),
+                      ),
+                    ),
                   ),
                 ],
               )
