@@ -195,7 +195,7 @@ class _DetailCommandeState extends State<DetailCommande> {
                 ),
                 SizedBox(height: 15),
                 Text(
-                  "Informations",
+                  "Description",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
