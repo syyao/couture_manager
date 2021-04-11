@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'detailClients.dart';
+
 class DetailCommande extends StatefulWidget {
   static const routeName = "DetailCommande";
 
@@ -30,7 +32,8 @@ class _DetailCommandeState extends State<DetailCommande> {
               tag: 'model',
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: Colors.blue.withOpacity(0.1),
+                child: Image(
+                    image: AssetImage('images/mdl.jpg'), fit: BoxFit.cover),
                 height: 400,
               ),
             ),
@@ -62,7 +65,8 @@ class _DetailCommandeState extends State<DetailCommande> {
               tag: 'tissu',
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: Colors.blue.withOpacity(0.1),
+                child: Image(
+                    image: AssetImage('images/tss.jpg'), fit: BoxFit.cover),
                 height: 400,
               ),
             ),
@@ -110,6 +114,9 @@ class _DetailCommandeState extends State<DetailCommande> {
                         width: heigthDevice / 5,
                         decoration: BoxDecoration(
                             color: Colors.blue.withOpacity(0.1),
+                            image: DecorationImage(
+                                image: AssetImage('images/mdl.jpg'),
+                                fit: BoxFit.cover),
                             borderRadius: BorderRadius.circular(15)),
                         //   child: Image(
                         //     image: AssetImage("images/pantalon.jpg"),
@@ -135,8 +142,12 @@ class _DetailCommandeState extends State<DetailCommande> {
                         height: heigthDevice / 5,
                         width: heigthDevice / 5,
                         decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(15)),
+                          color: Colors.blue.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                              image: AssetImage('images/tss.jpg'),
+                              fit: BoxFit.cover),
+                        ),
                         //   child: Image(
                         //     image: AssetImage("images/pantalon.jpg"),
                         // ),
@@ -161,7 +172,10 @@ class _DetailCommandeState extends State<DetailCommande> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                        icon: Icon(Icons.straighten_rounded), onPressed: () {})
+                        icon: Icon(Icons.straighten_rounded),
+                        onPressed: () {
+                          Navigator.pushNamed(context, DetailClient.routeName);
+                        })
                   ],
                 ),
                 Row(

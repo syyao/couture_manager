@@ -109,11 +109,10 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             height: heightDevice / 6,
                             decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.1),
+                                image: DecorationImage(
+                                    image: AssetImage('images/mdl.jpg'),
+                                    fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(10)),
-                            //   child: Image(
-                            //     image: AssetImage("images/pantalon.jpg"),
-                            // ),
                           ),
                         )
                       ],
