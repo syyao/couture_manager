@@ -1,6 +1,6 @@
-import 'package:couture_manager/views/client_page.dart';
-import 'package:couture_manager/views/historiquePage.dart';
-import 'package:couture_manager/views/homePage.dart';
+import 'client_page.dart';
+import 'historiquePage.dart';
+import 'homePage.dart';
 import 'package:flutter/material.dart';
 
 import 'profil_page.dart';

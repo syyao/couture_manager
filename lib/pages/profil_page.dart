@@ -1,4 +1,4 @@
-import 'package:couture_manager/views/drawerView.dart';
+import 'drawerView.dart';
 import 'package:flutter/material.dart';
 
 class ProfilPage extends StatelessWidget {

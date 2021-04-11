@@ -1,15 +1,15 @@
-import 'package:couture_manager/views/client_page.dart';
-import 'package:couture_manager/views/connexion_page.dart';
-import 'package:couture_manager/views/detailClients.dart';
-import 'package:couture_manager/views/detail_Commande.dart';
-import 'package:couture_manager/views/formulaire_commande.dart';
-import 'package:couture_manager/views/historiquePage.dart';
-import 'package:couture_manager/views/homePage.dart';
-import 'package:couture_manager/views/new_commande.dart';
 import 'package:flutter/material.dart';
 
-import 'views/inscription_page.dart';
-import 'views/profil_page.dart';
+import 'pages/client_page.dart';
+import 'pages/connexion/connexion_page.dart';
+import 'pages/detailClients.dart';
+import 'pages/detail_Commande.dart';
+import 'pages/formulaire_commande.dart';
+import 'pages/historiquePage.dart';
+import 'pages/homePage.dart';
+import 'pages/connexion/inscription_page.dart';
+import 'pages/new_commande.dart';
+import 'pages/profil_page.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,5 +1,5 @@
-import 'package:couture_manager/views/detailClients.dart';
-import 'package:couture_manager/views/formulaire_commande.dart';
+import 'detailClients.dart';
+import 'formulaire_commande.dart';
 import 'package:flutter/material.dart';
 
 import 'detail_Commande.dart';

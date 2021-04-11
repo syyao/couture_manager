@@ -1,5 +1,5 @@
-import 'package:couture_manager/views/detail_Commande.dart';
-import 'package:couture_manager/views/new_commande.dart';
+import 'detail_Commande.dart';
+import 'new_commande.dart';
 import 'package:flutter/material.dart';
 
 import 'drawerView.dart';
