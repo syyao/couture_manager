@@ -1,5 +1,5 @@
-import 'file:///C:/Users/agnar/AndroidStudioProjects/couture_manager/lib/wigets/input/input_text.dart';
 import 'package:couture_manager/wigets/button.dart';
+import 'package:couture_manager/wigets/input/input_text.dart';
 import 'package:couture_manager/wigets/spacers.dart';
 import 'package:flutter/material.dart';
 

@@ -58,7 +58,7 @@ class _DetailClientState extends State<DetailClient> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Nom & prenoms', style: TextStyle(color: Colors.grey)),
+                  Text('Nom', style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 5),
                   TextFormField(
                     decoration: InputDecoration(
@@ -76,7 +76,37 @@ class _DetailClientState extends State<DetailClient> {
                         borderSide: BorderSide(
                             color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
                       ),
-                      hintText: "Yao Sydney",
+                      hintText: "Yao",
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15),
+            Container(
+              width: widthDevice / 1.2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Prenoms', style: TextStyle(color: Colors.grey)),
+                  SizedBox(height: 5),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      filled: true,
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.transparent, width: 0.5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
+                      ),
+                      hintText: "Boula Sydney",
                     ),
                   ),
                 ],
