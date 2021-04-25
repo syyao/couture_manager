@@ -1,7 +1,10 @@
+import 'package:couture_manager/model/client.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'detailClients.dart';
 import 'drawerView.dart';
+import 'nouveau_client.dart';
 
 class ClientPage extends StatefulWidget {
   static const routeName = 'client';
@@ -11,17 +14,6 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
-  List<String> listCLients = [
-    "Sydney",
-    "Yao",
-    "Nath",
-    "Oceane",
-    "Samson",
-    "Tom",
-    "Nath",
-    "Boris"
-  ];
-
   bool search = false;
   void dynamicSearch() {
     setState(() {
@@ -81,58 +73,8 @@ class _ClientPageState extends State<ClientPage> {
               SizedBox(height: 10),
           itemCount: listCLients.length,
           itemBuilder: (context, i) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, DetailClient.routeName);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    width: widthDevice / 1.2,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(4, 4),
-                          blurRadius: 5,
-                          color: Colors.grey.withOpacity(0.3),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                listCLients[i],
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Entré le :3 avril 18:41',
-                                style: TextStyle(),
-                              ),
-                              Text(
-                                'N° Tel: 0141270085',
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        IconButton(
-                            icon: Icon(Icons.info_outline_rounded),
-                            onPressed: () {})
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+            return ClientItemWidget(
+              client: listCLients[i],
             );
           },
         ),
@@ -144,9 +86,78 @@ class _ClientPageState extends State<ClientPage> {
           size: 25,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, DetailClient.routeName);
+          Navigator.pushNamed(context, NouveauClient.routeName);
         },
       ),
+    );
+  }
+}
+
+class ClientItemWidget extends StatelessWidget {
+  final Client client;
+
+  const ClientItemWidget({Key key, @required this.client}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final widthDevice = MediaQuery.of(context).size.width;
+    final heightDevice = MediaQuery.of(context).size.height;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailClient(client: client),
+              ),
+            );
+          },
+          child: Container(
+            padding: EdgeInsets.all(10),
+            width: widthDevice / 1.2,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(4, 4),
+                  blurRadius: 5,
+                  color: Colors.grey.withOpacity(0.3),
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        client.nom,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Entré le :${DateFormat.d().add_yMMM().format(client.dateEntree)}',
+                        style: TextStyle(),
+                      ),
+                      Text(
+                        'N° Tel: ${client.telephone}',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 20),
+                IconButton(
+                    icon: Icon(Icons.info_outline_rounded), onPressed: () {})
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

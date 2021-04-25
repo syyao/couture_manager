@@ -1,3 +1,4 @@
+import 'package:couture_manager/pages/nouveau_client.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/client_page.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         DetailCommande.routeName: (context) => DetailCommande(),
         ProfilPage.routeName: (context) => ProfilPage(),
         ClientPage.routeName: (context) => ClientPage(),
-        DetailClient.routeName: (context) => DetailClient(),
+        NouveauClient.routeName: (context) => NouveauClient(),
         HistoriquePage.routeName: (context) => HistoriquePage(),
         NewCommande.routeName: (context) => NewCommande(),
         FormCommande.routeName: (context) => FormCommande(),
