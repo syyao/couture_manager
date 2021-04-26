@@ -1,3 +1,4 @@
+import 'package:couture_manager/database/couture_database.dart';
 import 'package:couture_manager/model/client.dart';
 import 'package:flutter/material.dart';
 
@@ -64,8 +65,7 @@ class _NouveauClientState extends State<NouveauClient> {
       String longueurDos,
       String longueurBras) {
     final nouveauClient = Client(
-        id: listCLients.length + 1,
-        utilisateurId: 1,
+        // id: defaultListClient.length + 1,
         nom: nom,
         prenom: prenom,
         telephone: telephone,
@@ -85,7 +85,8 @@ class _NouveauClientState extends State<NouveauClient> {
         longueurDos: longueurDos,
         longueurBras: longueurBras);
     setState(() {
-      listCLients.add(nouveauClient);
+      CoutureDataBase.instance.insertClient(nouveauClient);
+      // defaultListClient.add(nouveauClient);
     });
   }
 
@@ -142,9 +143,12 @@ class _NouveauClientState extends State<NouveauClient> {
           SizedBox(
             height: 10,
           ),
-          TextField(
+          TextFormField(
             controller: controllerChamp,
-            onSubmitted: (_) => submitData,
+            onFieldSubmitted: (_) => submitData,
+            keyboardType: TextInputType.number,
+            validator: (valid) =>
+                valid.trim().isEmpty ? "veuillez renseigner ce champ" : null,
             decoration: InputDecoration(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -166,6 +170,7 @@ class _NouveauClientState extends State<NouveauClient> {
     );
   }
 
+  final _keyForm = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final widthDevice = MediaQuery.of(context).size.width;
@@ -180,206 +185,224 @@ class _NouveauClientState extends State<NouveauClient> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Informations personnels",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Container(
-              width: widthDevice / 1.2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Nom', style: TextStyle(color: Colors.grey)),
-                  SizedBox(height: 5),
-                  TextField(
-                    controller: _controllernom,
-                    onSubmitted: (_) => submitData,
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      filled: true,
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
-                      ),
-                      hintText: "Nom",
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            Container(
-              width: widthDevice / 1.2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Prenoms', style: TextStyle(color: Colors.grey)),
-                  SizedBox(height: 5),
-                  TextField(
-                    controller: _controllerprenom,
-                    onSubmitted: (_) => submitData,
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      filled: true,
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
-                      ),
-                      hintText: "prenoms",
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            Container(
-              width: widthDevice / 1.2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Form(
+          key: _keyForm,
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Telephone',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  SizedBox(height: 5),
-                  TextField(
-                    controller: _controllertelephone,
-                    onSubmitted: (_) => submitData,
-
-                    // validator: (val) => val.length < 10 ? 'trop court' : null,
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      filled: true,
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
-                      ),
-                      hintText: "00 00 00 00 00",
-                    ),
+                    "Informations personnels",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Mensurations",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Radio<GenreClient>(
-                        value: GenreClient.homme,
-                        groupValue: _genre,
-                        onChanged: (GenreClient value) {
-                          setState(() {
-                            _genre = value;
-                          });
-                        },
+              SizedBox(height: 20),
+              Container(
+                width: widthDevice / 1.2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Nom', style: TextStyle(color: Colors.grey)),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      controller: _controllernom,
+                      validator: (valid) => valid.trim().isEmpty
+                          ? "veuillez renseigner ce champ"
+                          : null,
+                      onFieldSubmitted: (_) => submitData,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        filled: true,
+                        border: InputBorder.none,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.transparent, width: 0.5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(56, 182, 255, 1),
+                              width: 0.5),
+                        ),
+                        hintText: "Nom",
                       ),
-                      Text('Homme')
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Radio<GenreClient>(
-                        value: GenreClient.femme,
-                        groupValue: _genre,
-                        onChanged: (GenreClient value) {
-                          setState(() {
-                            _genre = value;
-                          });
-                        },
-                      ),
-                      Text('Femme')
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Wrap(children: [
-              champMesure('Tour de poitrine', _controllertourPoitrine),
-              champMesure('Tour de taille', _controllertourTaille),
-              champMesure('Tour de bassin', _controllertourBassin),
-              champMesure('Tour de cuisse', _controllertourCuisse),
-              champMesure('Hauteur bassin', _controllerhauteurBassin),
-              champMesure('Hauteur poitrine', _controllerhauteurPoitrine),
-              champMesure('Longueur epaule', _controllerlongueurEpaule),
-              champMesure('Longueur bras', _controllerlongueurBras),
-              champMesure('Longueur Bras-coude', _controllerlongueurBrasCoude),
-              champMesure('Hauteur genou', _controllerhauteurGenou),
-              champMesure('Tour de hanche', _controllertourHanche),
-              champMesure('Hauteur taille', _controllerhauteurTaille),
-              champMesure('Tour de bras', _controllertourBras),
-              champMesure('Longueur dos', _controllerlongueurDos)
-            ]),
-            InkWell(
-              onTap: submitData,
-              child: Container(
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromRGBO(56, 182, 255, 1),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(4, 4),
-                      blurRadius: 5,
-                      color: Colors.grey.withOpacity(0.3),
                     ),
                   ],
                 ),
-                child: Text(
-                  "Enregistrer",
-                  style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 15),
+              Container(
+                width: widthDevice / 1.2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Prenoms', style: TextStyle(color: Colors.grey)),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      controller: _controllerprenom,
+                      validator: (valid) => valid.trim().isEmpty
+                          ? "veuillez renseigner ce champ"
+                          : null,
+                      onFieldSubmitted: (_) => submitData,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        filled: true,
+                        border: InputBorder.none,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.transparent, width: 0.5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(56, 182, 255, 1),
+                              width: 0.5),
+                        ),
+                        hintText: "prenoms",
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            )
-          ],
+              SizedBox(height: 15),
+              Container(
+                width: widthDevice / 1.2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Telephone',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      controller: _controllertelephone,
+                      onFieldSubmitted: (_) => submitData,
+                      keyboardType: TextInputType.phone,
+                      validator: (val) => val.length < 10 ? 'trop court' : null,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        filled: true,
+                        border: InputBorder.none,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.transparent, width: 0.5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(56, 182, 255, 1),
+                              width: 0.5),
+                        ),
+                        hintText: "00 00 00 00 00",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Mensurations",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Radio<GenreClient>(
+                          value: GenreClient.homme,
+                          groupValue: _genre,
+                          onChanged: (GenreClient value) {
+                            setState(() {
+                              _genre = value;
+                            });
+                          },
+                        ),
+                        Text('Homme')
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        Radio<GenreClient>(
+                          value: GenreClient.femme,
+                          groupValue: _genre,
+                          onChanged: (GenreClient value) {
+                            setState(() {
+                              _genre = value;
+                            });
+                          },
+                        ),
+                        Text('Femme')
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Wrap(children: [
+                champMesure('Tour de poitrine', _controllertourPoitrine),
+                champMesure('Tour de taille', _controllertourTaille),
+                champMesure('Tour de bassin', _controllertourBassin),
+                champMesure('Tour de cuisse', _controllertourCuisse),
+                champMesure('Hauteur bassin', _controllerhauteurBassin),
+                champMesure('Hauteur poitrine', _controllerhauteurPoitrine),
+                champMesure('Longueur epaule', _controllerlongueurEpaule),
+                champMesure('Longueur bras', _controllerlongueurBras),
+                champMesure(
+                    'Longueur Bras-coude', _controllerlongueurBrasCoude),
+                champMesure('Hauteur genou', _controllerhauteurGenou),
+                champMesure('Tour de hanche', _controllertourHanche),
+                champMesure('Hauteur taille', _controllerhauteurTaille),
+                champMesure('Tour de bras', _controllertourBras),
+                champMesure('Longueur dos', _controllerlongueurDos)
+              ]),
+              InkWell(
+                onTap: () {
+                  if (_keyForm.currentState.validate()) {
+                    // _keyForm.currentState.save();
+                    return submitData();
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color.fromRGBO(56, 182, 255, 1),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(4, 4),
+                        blurRadius: 5,
+                        color: Colors.grey.withOpacity(0.3),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    "Enregistrer",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

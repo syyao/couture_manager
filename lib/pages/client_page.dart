@@ -1,3 +1,4 @@
+import 'package:couture_manager/database/couture_database.dart';
 import 'package:couture_manager/model/client.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -66,19 +67,29 @@ class _ClientPageState extends State<ClientPage> {
     return Scaffold(
       drawer: HomeDrawer(),
       appBar: search ? searchAppBar() : defaultAppBar(),
-      body: Container(
-        padding: EdgeInsets.only(top: 10),
-        child: ListView.separated(
-          separatorBuilder: (BuildContext context, int index) =>
-              SizedBox(height: 10),
-          itemCount: listCLients.length,
-          itemBuilder: (context, i) {
-            return ClientItemWidget(
-              client: listCLients[i],
-            );
-          },
-        ),
-      ),
+      body: FutureBuilder<List<Client>>(
+          future: CoutureDataBase.instance.clientList(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
+            List<Client> clientListe = snapshot.data;
+            if (snapshot.hasData) {
+              return Container(
+                padding: EdgeInsets.only(top: 10),
+                child: ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) =>
+                      SizedBox(height: 10),
+                  itemCount: clientListe.length,
+                  itemBuilder: (context, i) {
+                    return ClientItemWidget(
+                      client: clientListe[i],
+                    );
+                  },
+                ),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
@@ -107,6 +118,7 @@ class ClientItemWidget extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
+            print(client.toMap());
             Navigator.push(
               context,
               MaterialPageRoute(

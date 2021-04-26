@@ -1,5 +1,6 @@
 import 'package:couture_manager/model/client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 enum GenreClient { homme, femme }
 
@@ -46,8 +47,9 @@ class _DetailClientState extends State<DetailClient> {
           SizedBox(
             height: 10,
           ),
-          TextField(
+          TextFormField(
             controller: controllerChamp,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               filled: true,
@@ -122,7 +124,7 @@ class _DetailClientState extends State<DetailClient> {
                 children: [
                   Text("Nom", style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 5),
-                  TextField(
+                  TextFormField(
                     controller: _controllernom,
                     decoration: InputDecoration(
                       contentPadding:
@@ -153,7 +155,7 @@ class _DetailClientState extends State<DetailClient> {
                 children: [
                   Text('Prenoms', style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 5),
-                  TextField(
+                  TextFormField(
                     controller: _controllerprenom,
                     decoration: InputDecoration(
                       contentPadding:
@@ -187,8 +189,9 @@ class _DetailClientState extends State<DetailClient> {
                     style: TextStyle(color: Colors.grey),
                   ),
                   SizedBox(height: 5),
-                  TextField(
+                  TextFormField(
                     controller: _controllertelephone,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -260,53 +263,56 @@ class _DetailClientState extends State<DetailClient> {
             ),
             Wrap(children: [
               champMesureClient('Tour de poitrine', _controllertourPoitrine,
-                  widget.client.tourPoitrine),
+                  widget.client.tourPoitrine.toString()),
               champMesureClient('Tour de taille', _controllertourTaille,
-                  widget.client.tourTaille),
+                  widget.client.tourTaille.toString()),
               champMesureClient('Tour de bassin', _controllertourBassin,
-                  widget.client.tourBassin),
+                  widget.client.tourBassin.toString()),
               champMesureClient('Tour de cuisse', _controllertourCuisse,
-                  widget.client.tourCuisse),
+                  widget.client.tourCuisse.toString()),
               champMesureClient('Hauteur bassin', _controllerhauteurBassin,
-                  widget.client.hauteurBassin),
+                  widget.client.hauteurBassin.toString()),
               champMesureClient('Hauteur poitrine', _controllerhauteurPoitrine,
-                  widget.client.hauteurPoitrine),
+                  widget.client.hauteurPoitrine.toString()),
               champMesureClient('Longueur epaule', _controllerlongueurEpaule,
-                  widget.client.longueurEpaule),
+                  widget.client.longueurEpaule.toString()),
               champMesureClient('Longueur bras', _controllerlongueurBras,
-                  widget.client.longueurBras),
+                  widget.client.longueurBras.toString()),
               champMesureClient(
                   'Longueur Bras-coude',
                   _controllerlongueurBrasCoude,
-                  widget.client.longueurBrasCoude),
+                  widget.client.longueurBrasCoude.toString()),
               champMesureClient('Hauteur genou', _controllerhauteurGenou,
-                  widget.client.hauteurGenou),
+                  widget.client.hauteurGenou.toString()),
               champMesureClient('Tour de hanche', _controllertourHanche,
-                  widget.client.tourHanche),
+                  widget.client.tourHanche.toString()),
               champMesureClient('Hauteur taille ', _controllerhauteurTaille,
-                  widget.client.hauteurTaille),
-              champMesureClient(
-                  'Tour de bras', _controllertourBras, widget.client.tourBras),
+                  widget.client.hauteurTaille.toString()),
+              champMesureClient('Tour de bras', _controllertourBras,
+                  widget.client.tourBras.toString()),
               champMesureClient('Longueur dos', _controllerlongueurDos,
-                  widget.client.longueurDos),
+                  widget.client.longueurDos.toString()),
             ]),
-            Container(
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Color.fromRGBO(56, 182, 255, 1),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(4, 4),
-                    blurRadius: 5,
-                    color: Colors.grey.withOpacity(0.3),
-                  ),
-                ],
-              ),
-              child: Text(
-                "Enregistrer",
-                style: TextStyle(color: Colors.white),
+            InkWell(
+              onTap: () {},
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color.fromRGBO(56, 182, 255, 1),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(4, 4),
+                      blurRadius: 5,
+                      color: Colors.grey.withOpacity(0.3),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  "Enregistrer",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             )
           ],

@@ -1,4 +1,10 @@
+import 'package:couture_manager/database/couture_database.dart';
+import 'package:couture_manager/model/client.dart';
+import 'package:couture_manager/pages/client_page.dart';
+import 'package:intl/intl.dart';
+
 import 'detailClients.dart';
+import 'drawerView.dart';
 import 'formulaire_commande.dart';
 import 'package:flutter/material.dart';
 
@@ -12,162 +18,189 @@ class NewCommande extends StatefulWidget {
 }
 
 class _NewCommandeState extends State<NewCommande> {
-  List<String> listCLients = [
-    "Sydney",
-    "Yao",
-    "Nath",
-    "Oceane",
-    "Samson",
-    "Tom",
-    "Nath",
-    "Boris"
-  ];
+  // List<String> listCLients = [
+  //   "Sydney",
+  //   "Yao",
+  //   "Nath",
+  //   "Oceane",
+  //   "Samson",
+  //   "Tom",
+  //   "Nath",
+  //   "Boris"
+  // ];
 
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Nouvelle commande'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Voulez-vous continuez avec ses mensurations ?'),
-              ],
-            ),
+  bool search = false;
+  void dynamicSearch() {
+    setState(() {
+      search = !search;
+    });
+  }
+
+  Widget defaultAppBar() {
+    return AppBar(
+      iconTheme: IconThemeData(color: Colors.white),
+      centerTitle: true,
+      title: Text(
+        "Nouvelle commande",
+        style: TextStyle(color: Colors.white),
+      ),
+      actions: [
+        IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              dynamicSearch();
+            })
+      ],
+    );
+  }
+
+  Widget searchAppBar() {
+    return AppBar(
+      iconTheme: IconThemeData(color: Colors.white),
+      title: TextField(
+        style: TextStyle(color: Colors.white),
+        cursorColor: Colors.white,
+        autofocus: true,
+        decoration: InputDecoration(
+            hintText: "Rechercher un client",
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: Colors.white)),
+      ),
+      leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('oui'),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, FormCommande.routeName);
-              },
-            ),
-            TextButton(
-              child: Text('non'),
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(DetailClient.routeName);
-              },
-            ),
-          ],
-        );
-      },
+          onPressed: () => dynamicSearch()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final widthDevice = MediaQuery.of(context).size.width;
+    final heightDevice = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
-          centerTitle: true,
-          title: Text(
-            'Nouvelle commande',
-            style: TextStyle(color: Colors.white),
-          )),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: widthDevice / 1.2,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      filled: true,
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
-                      ),
-                      hintText: "rechercher un client",
-                      suffixIcon: Icon(Icons.search)),
+      drawer: HomeDrawer(),
+      appBar: search ? searchAppBar() : defaultAppBar(),
+      body: FutureBuilder<List<Client>>(
+          future: CoutureDataBase.instance.clientList(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
+            List<Client> clientListe = snapshot.data;
+            if (snapshot.hasData) {
+              return Container(
+                padding: EdgeInsets.only(top: 10),
+                child: ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) =>
+                      SizedBox(height: 10),
+                  itemCount: clientListe.length,
+                  itemBuilder: (context, i) {
+                    return ClientItemWidget(
+                      client: clientListe[i],
+                    );
+                  },
                 ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: ListView.separated(
-                separatorBuilder: (BuildContext context, int index) =>
-                    SizedBox(height: 10),
-                itemCount: listCLients.length,
-                itemBuilder: (context, i) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          _showMyDialog();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          width: widthDevice / 1.2,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(4, 4),
-                                blurRadius: 5,
-                                color: Colors.grey.withOpacity(0.3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Flexible(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      listCLients[i],
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      'Entré le :3 avril 18:41',
-                                      style: TextStyle(),
-                                    ),
-                                    Text(
-                                      'N° Tel: 0141270085',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              IconButton(
-                                  icon: Icon(Icons.info_outline_rounded),
-                                  onPressed: () {})
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
+    );
+  }
+}
+
+class ClientItemWidget extends StatelessWidget {
+  final Client client;
+
+  const ClientItemWidget({Key key, @required this.client}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Nouvelle commande'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Voulez-vous continuez avec ses mensurations ?'),
+                ],
               ),
             ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('oui'),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, FormCommande.routeName);
+                },
+              ),
+              TextButton(
+                child: Text('non'),
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(DetailClient.routeName);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    final widthDevice = MediaQuery.of(context).size.width;
+    final heightDevice = MediaQuery.of(context).size.height;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: _showMyDialog,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            width: widthDevice / 1.2,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(4, 4),
+                  blurRadius: 5,
+                  color: Colors.grey.withOpacity(0.3),
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        client.nom,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Entré le :${DateFormat.d().add_yMMM().format(client.dateEntree)}',
+                        style: TextStyle(),
+                      ),
+                      Text(
+                        'N° Tel: ${client.telephone}',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 20),
+                IconButton(
+                    icon: Icon(Icons.info_outline_rounded), onPressed: () {})
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

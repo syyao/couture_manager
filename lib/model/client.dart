@@ -13,7 +13,6 @@ String clientToMap(List<Client> data) =>
 class Client {
   Client({
     this.id,
-    this.utilisateurId,
     this.nom,
     this.prenom,
     this.telephone,
@@ -37,7 +36,7 @@ class Client {
   });
 
   int id;
-  int utilisateurId;
+
   String nom;
   String prenom;
   String telephone;
@@ -62,7 +61,6 @@ class Client {
 
   factory Client.fromMap(Map<String, dynamic> json) => Client(
         id: json["id"],
-        utilisateurId: json["utilisateurId"],
         nom: json["nom"],
         prenom: json["prenom"],
         telephone: json["telephone"],
@@ -88,7 +86,6 @@ class Client {
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "utilisateurId": utilisateurId,
         "nom": nom,
         "prenom": prenom,
         "telephone": telephone,
@@ -111,52 +108,3 @@ class Client {
         "longueurBras": longueurBras,
       };
 }
-
-List<Client> listCLients = [
-  Client(
-    id: 1,
-    nom: "Yao",
-    prenom: "Sydney",
-    dateEntree: DateTime.now(),
-    // sexe: "H",
-    telephone: '0123456789',
-    utilisateurId: 1,
-    hauteurBassin: "123",
-    hauteurGenou: "67",
-    hauteurPoitrine: "89",
-    hauteurTaille: "32",
-    longueurBras: "39",
-    longueurBrasCoude: "32",
-    longueurDos: "12",
-    longueurEpaule: "33",
-    tourPoitrine: "11",
-    tourHanche: "87",
-    tourBassin: "54",
-    tourBras: "56",
-    tourCuisse: "78",
-    tourTaille: "62",
-  ),
-  Client(
-    id: 2,
-    nom: "Domi",
-    prenom: "Chelida",
-    dateEntree: DateTime.now(),
-    //  sexe: "F",
-    telephone: '0123456789',
-    utilisateurId: 1,
-    hauteurBassin: "0",
-    hauteurGenou: "0",
-    hauteurPoitrine: "0",
-    hauteurTaille: "0",
-    longueurBras: "0",
-    longueurBrasCoude: "0",
-    longueurDos: "0",
-    longueurEpaule: "0",
-    tourPoitrine: "0",
-    tourHanche: "0",
-    tourBassin: "0",
-    tourBras: "0",
-    tourCuisse: "0",
-    tourTaille: "0",
-  ),
-];
