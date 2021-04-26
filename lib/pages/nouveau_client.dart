@@ -2,8 +2,6 @@ import 'package:couture_manager/database/couture_database.dart';
 import 'package:couture_manager/model/client.dart';
 import 'package:flutter/material.dart';
 
-enum GenreClient { homme, femme }
-
 class NouveauClient extends StatefulWidget {
   static const routeName = 'newClient';
 
@@ -29,27 +27,13 @@ class _NouveauClientState extends State<NouveauClient> {
   final _controllertourBras = TextEditingController();
   final _controllerlongueurDos = TextEditingController();
   final _controllerlongueurBras = TextEditingController();
-  GenreClient _genre = GenreClient.homme;
-  // List<String> mensurations = [
-  //   "Tour de poitrine",
-  //   "Tour de taille",
-  //   "Tour de bassin",
-  //   "Tour de cuisse",
-  //   "Hauteur bassin",
-  //   "Hauteur poitrine",
-  //   "Longueur epaule",
-  //   "longueur bras",
-  //   "Hauteur bras-coude",
-  //   "Hauteur genou",
-  //   "Tour de hanche",
-  //   "Hauteur taille",
-  //   "Tour de bras",
-  //   "Longueur dos"
-  // ];
+  String _controllergenre;
+
   void ajouterClient(
       String nom,
       String prenom,
       String telephone,
+      String sexe,
       String tourPoitrine,
       String tourTaille,
       String tourBassin,
@@ -69,6 +53,7 @@ class _NouveauClientState extends State<NouveauClient> {
         nom: nom,
         prenom: prenom,
         telephone: telephone,
+        sexe: sexe,
         dateEntree: DateTime.now(),
         tourPoitrine: tourPoitrine,
         tourTaille: tourTaille,
@@ -86,6 +71,7 @@ class _NouveauClientState extends State<NouveauClient> {
         longueurBras: longueurBras);
     setState(() {
       CoutureDataBase.instance.insertClient(nouveauClient);
+      Navigator.of(context).pop();
       // defaultListClient.add(nouveauClient);
     });
   }
@@ -94,6 +80,7 @@ class _NouveauClientState extends State<NouveauClient> {
     final txControllernom = _controllernom.text;
     final txControllerprenom = _controllerprenom.text;
     final txControllertelephone = _controllertelephone.text;
+    final txControllersexe = _controllergenre;
     final txControllertourPoitrine = _controllertourPoitrine.text;
     final txControllertourTaille = _controllertourTaille.text;
     final txControllertourBassin = _controllertourBassin.text;
@@ -112,6 +99,7 @@ class _NouveauClientState extends State<NouveauClient> {
         txControllernom,
         txControllerprenom,
         txControllertelephone,
+        txControllersexe,
         txControllertourPoitrine,
         txControllertourTaille,
         txControllertourBassin,
@@ -126,7 +114,13 @@ class _NouveauClientState extends State<NouveauClient> {
         txControllertourBras,
         txControllerlongueurDos,
         txControllerlongueurBras);
-    Navigator.of(context).pop();
+  }
+
+  void _handleGenderChange(String value) {
+    setState(() {
+      _controllergenre = value;
+      print(value);
+    });
   }
 
   Widget champMesure(String label, TextEditingController controllerChamp) {
@@ -326,32 +320,24 @@ class _NouveauClientState extends State<NouveauClient> {
                   Container(
                     child: Row(
                       children: [
-                        Radio<GenreClient>(
-                          value: GenreClient.homme,
-                          groupValue: _genre,
-                          onChanged: (GenreClient value) {
-                            setState(() {
-                              _genre = value;
-                            });
-                          },
+                        Radio<String>(
+                          value: "Homme",
+                          groupValue: _controllergenre,
+                          onChanged: _handleGenderChange,
                         ),
-                        Text('Homme')
+                        Text('Homme'),
                       ],
                     ),
                   ),
                   Container(
                     child: Row(
                       children: [
-                        Radio<GenreClient>(
-                          value: GenreClient.femme,
-                          groupValue: _genre,
-                          onChanged: (GenreClient value) {
-                            setState(() {
-                              _genre = value;
-                            });
-                          },
+                        Radio<String>(
+                          value: "Femme",
+                          groupValue: _controllergenre,
+                          onChanged: _handleGenderChange,
                         ),
-                        Text('Femme')
+                        Text('Femme'),
                       ],
                     ),
                   ),

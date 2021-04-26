@@ -2,8 +2,6 @@ import 'package:couture_manager/model/client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-enum GenreClient { homme, femme }
-
 class DetailClient extends StatefulWidget {
   static const routeName = 'detailClient';
   final Client client;
@@ -71,7 +69,20 @@ class _DetailClientState extends State<DetailClient> {
     );
   }
 
-  GenreClient _genre = GenreClient.homme;
+  String _controllergenre() {
+    if (widget.client.sexe == "Homme") {
+      return 'Homme';
+    } else {
+      return 'Femme';
+    }
+  }
+
+  void _handleGenderChange(String value) {
+    setState(() {
+      // _controllergenre = value;
+      print(value);
+    });
+  }
 
   // List<String> mensurations = [
   //   "Tour de poitrine",
@@ -230,32 +241,24 @@ class _DetailClientState extends State<DetailClient> {
                 Container(
                   child: Row(
                     children: [
-                      Radio<GenreClient>(
-                        value: GenreClient.homme,
-                        groupValue: _genre,
-                        onChanged: (GenreClient value) {
-                          setState(() {
-                            _genre = value;
-                          });
-                        },
+                      Radio<String>(
+                        value: "Homme",
+                        groupValue: _controllergenre(),
+                        onChanged: _handleGenderChange,
                       ),
-                      Text('Homme')
+                      Text('Homme'),
                     ],
                   ),
                 ),
                 Container(
                   child: Row(
                     children: [
-                      Radio<GenreClient>(
-                        value: GenreClient.femme,
-                        groupValue: _genre,
-                        onChanged: (GenreClient value) {
-                          setState(() {
-                            _genre = value;
-                          });
-                        },
+                      Radio<String>(
+                        value: "Femme",
+                        groupValue: _controllergenre(),
+                        onChanged: _handleGenderChange,
                       ),
-                      Text('Femme')
+                      Text('Femme'),
                     ],
                   ),
                 ),
