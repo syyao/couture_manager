@@ -29,91 +29,32 @@ class _NouveauClientState extends State<NouveauClient> {
   final _controllerlongueurBras = TextEditingController();
   String _controllergenre;
 
-  void ajouterClient(
-      String nom,
-      String prenom,
-      String telephone,
-      String sexe,
-      String tourPoitrine,
-      String tourTaille,
-      String tourBassin,
-      String tourCuisse,
-      String hauteurBassin,
-      String hauteurPoitrine,
-      String longueurEpaule,
-      String longueurBrasCoude,
-      String hauteurGenou,
-      String hauteurTaille,
-      String tourHanche,
-      String tourBras,
-      String longueurDos,
-      String longueurBras) {
+  void ajouterClient() {
     final nouveauClient = Client(
-        // id: defaultListClient.length + 1,
-        nom: nom,
-        prenom: prenom,
-        telephone: telephone,
-        sexe: sexe,
+        nom: _controllernom.text,
+        prenom: _controllerprenom.text,
+        telephone: _controllertelephone.text,
+        sexe: _controllergenre,
         dateEntree: DateTime.now(),
-        tourPoitrine: tourPoitrine,
-        tourTaille: tourTaille,
-        tourBassin: tourBassin,
-        tourCuisse: tourCuisse,
-        hauteurBassin: hauteurBassin,
-        hauteurPoitrine: hauteurPoitrine,
-        longueurEpaule: longueurEpaule,
-        longueurBrasCoude: longueurBrasCoude,
-        hauteurGenou: hauteurGenou,
-        hauteurTaille: hauteurTaille,
-        tourHanche: tourHanche,
-        tourBras: tourBras,
-        longueurDos: longueurDos,
-        longueurBras: longueurBras);
+        tourPoitrine: _controllertourPoitrine.text,
+        tourTaille: _controllertourTaille.text,
+        tourBassin: _controllertourBassin.text,
+        tourCuisse: _controllertourCuisse.text,
+        hauteurBassin: _controllerhauteurBassin.text,
+        hauteurPoitrine: _controllerhauteurPoitrine.text,
+        longueurEpaule: _controllerlongueurEpaule.text,
+        longueurBrasCoude: _controllerlongueurBrasCoude.text,
+        hauteurGenou: _controllerhauteurGenou.text,
+        hauteurTaille: _controllerhauteurTaille.text,
+        tourHanche: _controllertourHanche.text,
+        tourBras: _controllertourBras.text,
+        longueurDos: _controllerlongueurDos.text,
+        longueurBras: _controllerlongueurBras.text);
     setState(() {
       CoutureDataBase.instance.insertClient(nouveauClient);
       Navigator.of(context).pop();
       // defaultListClient.add(nouveauClient);
     });
-  }
-
-  void submitData() {
-    final txControllernom = _controllernom.text;
-    final txControllerprenom = _controllerprenom.text;
-    final txControllertelephone = _controllertelephone.text;
-    final txControllersexe = _controllergenre;
-    final txControllertourPoitrine = _controllertourPoitrine.text;
-    final txControllertourTaille = _controllertourTaille.text;
-    final txControllertourBassin = _controllertourBassin.text;
-    final txControllertourCuisse = _controllertourCuisse.text;
-    final txControllerhauteurBassin = _controllerhauteurBassin.text;
-    final txControllerhauteurPoitrine = _controllerhauteurPoitrine.text;
-    final txControllerlongueurEpaule = _controllerlongueurEpaule.text;
-    final txControllerlongueurBrasCoude = _controllerlongueurBrasCoude.text;
-    final txControllerhauteurGenou = _controllerhauteurGenou.text;
-    final txControllerhauteurTaille = _controllerhauteurTaille.text;
-    final txControllertourHanche = _controllertourHanche.text;
-    final txControllertourBras = _controllertourBras.text;
-    final txControllerlongueurDos = _controllerlongueurDos.text;
-    final txControllerlongueurBras = _controllerlongueurBras.text;
-    ajouterClient(
-        txControllernom,
-        txControllerprenom,
-        txControllertelephone,
-        txControllersexe,
-        txControllertourPoitrine,
-        txControllertourTaille,
-        txControllertourBassin,
-        txControllertourCuisse,
-        txControllerhauteurBassin,
-        txControllerhauteurPoitrine,
-        txControllerlongueurEpaule,
-        txControllerlongueurBrasCoude,
-        txControllerhauteurGenou,
-        txControllerhauteurTaille,
-        txControllertourHanche,
-        txControllertourBras,
-        txControllerlongueurDos,
-        txControllerlongueurBras);
   }
 
   void _handleGenderChange(String value) {
@@ -139,7 +80,7 @@ class _NouveauClientState extends State<NouveauClient> {
           ),
           TextFormField(
             controller: controllerChamp,
-            onFieldSubmitted: (_) => submitData,
+            onFieldSubmitted: (_) => ajouterClient,
             keyboardType: TextInputType.number,
             validator: (valid) =>
                 valid.trim().isEmpty ? "veuillez renseigner ce champ" : null,
@@ -206,7 +147,7 @@ class _NouveauClientState extends State<NouveauClient> {
                       validator: (valid) => valid.trim().isEmpty
                           ? "veuillez renseigner ce champ"
                           : null,
-                      onFieldSubmitted: (_) => submitData,
+                      onFieldSubmitted: (_) => ajouterClient,
                       decoration: InputDecoration(
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -242,7 +183,7 @@ class _NouveauClientState extends State<NouveauClient> {
                       validator: (valid) => valid.trim().isEmpty
                           ? "veuillez renseigner ce champ"
                           : null,
-                      onFieldSubmitted: (_) => submitData,
+                      onFieldSubmitted: (_) => ajouterClient,
                       decoration: InputDecoration(
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -278,7 +219,7 @@ class _NouveauClientState extends State<NouveauClient> {
                     SizedBox(height: 5),
                     TextFormField(
                       controller: _controllertelephone,
-                      onFieldSubmitted: (_) => submitData,
+                      onFieldSubmitted: (_) => ajouterClient,
                       keyboardType: TextInputType.phone,
                       validator: (val) => val.length < 10 ? 'trop court' : null,
                       decoration: InputDecoration(
@@ -364,7 +305,7 @@ class _NouveauClientState extends State<NouveauClient> {
                 onTap: () {
                   if (_keyForm.currentState.validate()) {
                     // _keyForm.currentState.save();
-                    return submitData();
+                    return ajouterClient();
                   }
                 },
                 child: Container(

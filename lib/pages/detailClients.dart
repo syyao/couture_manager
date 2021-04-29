@@ -1,3 +1,4 @@
+import 'package:couture_manager/database/couture_database.dart';
 import 'package:couture_manager/model/client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,26 +13,59 @@ class DetailClient extends StatefulWidget {
 }
 
 class _DetailClientState extends State<DetailClient> {
-  final _controllernom = TextEditingController();
-  final _controllerprenom = TextEditingController();
-  final _controllertelephone = TextEditingController();
-  final _controllertourPoitrine = TextEditingController();
-  final _controllertourTaille = TextEditingController();
-  final _controllertourBassin = TextEditingController();
-  final _controllertourCuisse = TextEditingController();
-  final _controllerhauteurBassin = TextEditingController();
-  final _controllerhauteurPoitrine = TextEditingController();
-  final _controllerlongueurEpaule = TextEditingController();
-  final _controllerlongueurBrasCoude = TextEditingController();
-  final _controllerhauteurGenou = TextEditingController();
-  final _controllerhauteurTaille = TextEditingController();
-  final _controllertourHanche = TextEditingController();
-  final _controllertourBras = TextEditingController();
-  final _controllerlongueurDos = TextEditingController();
-  final _controllerlongueurBras = TextEditingController();
+  TextEditingController _controllernom = TextEditingController();
+  TextEditingController _controllerprenom = TextEditingController();
+  TextEditingController _controllertelephone = TextEditingController();
+  TextEditingController _controllertourPoitrine = TextEditingController();
+  TextEditingController _controllertourTaille = TextEditingController();
+  TextEditingController _controllertourBassin = TextEditingController();
+  TextEditingController _controllertourCuisse = TextEditingController();
+  TextEditingController _controllerhauteurBassin = TextEditingController();
+  TextEditingController _controllerhauteurPoitrine = TextEditingController();
+  TextEditingController _controllerlongueurEpaule = TextEditingController();
+  TextEditingController _controllerlongueurBrasCoude = TextEditingController();
+  TextEditingController _controllerhauteurGenou = TextEditingController();
+  TextEditingController _controllerhauteurTaille = TextEditingController();
+  TextEditingController _controllertourHanche = TextEditingController();
+  TextEditingController _controllertourBras = TextEditingController();
+  TextEditingController _controllerlongueurDos = TextEditingController();
+  TextEditingController _controllerlongueurBras = TextEditingController();
+
+  void modifierClient() {
+    // final clientUpdate = Client(
+    //   id: widget.client.id,
+    //   nom: _controllernom.text,
+    //   prenom: _controllerprenom.text,
+    //   telephone: _controllertelephone.text,
+    //   dateEntree: widget.client.dateEntree,
+    //   tourPoitrine: _controllertourPoitrine.text,
+    //   tourTaille: _controllertourTaille.text,
+    //   tourBassin: _controllertourBassin.text,
+    //   tourCuisse: _controllertourCuisse.text,
+    //   hauteurBassin: _controllerhauteurBassin.text,
+    //   hauteurPoitrine: _controllerhauteurPoitrine.text,
+    //   longueurEpaule: _controllerlongueurEpaule.text,
+    //   longueurBrasCoude: _controllerlongueurBrasCoude.text,
+    //   hauteurGenou: _controllerhauteurGenou.text,
+    //   hauteurTaille: _controllerhauteurTaille.text,
+    //   tourHanche: _controllertourHanche.text,
+    //   tourBras: _controllertourBras.text,
+    //   longueurDos: _controllerlongueurDos.text,
+    //   longueurBras: _controllerlongueurBras.text,
+    // );
+
+    // CoutureDataBase.instance.updateclient(clientUpdate);
+    // print('cliennt modifier');
+    // Navigator.of(context).pop();
+    // // defaultListClient.add(nouveauClient);
+  }
+
   // void modifierclient() {}
   Widget champMesureClient(
-      String label, TextEditingController controllerChamp, String hintLabel) {
+    String label,
+    TextEditingController controllerChamp,
+    String hintLabel,
+  ) {
     return Container(
       width: MediaQuery.of(context).size.width / 3,
       margin: EdgeInsets.all(10),
@@ -72,14 +106,16 @@ class _DetailClientState extends State<DetailClient> {
   String _controllergenre() {
     if (widget.client.sexe == "Homme") {
       return 'Homme';
-    } else {
+    } else if (widget.client.sexe == "Femme") {
       return 'Femme';
+    } else {
+      return '';
     }
   }
 
   void _handleGenderChange(String value) {
     setState(() {
-      // _controllergenre = value;
+      // _controllergenre == value;
       print(value);
     });
   }
@@ -265,39 +301,81 @@ class _DetailClientState extends State<DetailClient> {
               ],
             ),
             Wrap(children: [
-              champMesureClient('Tour de poitrine', _controllertourPoitrine,
-                  widget.client.tourPoitrine.toString()),
-              champMesureClient('Tour de taille', _controllertourTaille,
-                  widget.client.tourTaille.toString()),
-              champMesureClient('Tour de bassin', _controllertourBassin,
-                  widget.client.tourBassin.toString()),
-              champMesureClient('Tour de cuisse', _controllertourCuisse,
-                  widget.client.tourCuisse.toString()),
-              champMesureClient('Hauteur bassin', _controllerhauteurBassin,
-                  widget.client.hauteurBassin.toString()),
-              champMesureClient('Hauteur poitrine', _controllerhauteurPoitrine,
-                  widget.client.hauteurPoitrine.toString()),
-              champMesureClient('Longueur epaule', _controllerlongueurEpaule,
-                  widget.client.longueurEpaule.toString()),
-              champMesureClient('Longueur bras', _controllerlongueurBras,
-                  widget.client.longueurBras.toString()),
               champMesureClient(
-                  'Longueur Bras-coude',
-                  _controllerlongueurBrasCoude,
-                  widget.client.longueurBrasCoude.toString()),
-              champMesureClient('Hauteur genou', _controllerhauteurGenou,
-                  widget.client.hauteurGenou.toString()),
-              champMesureClient('Tour de hanche', _controllertourHanche,
-                  widget.client.tourHanche.toString()),
-              champMesureClient('Hauteur taille ', _controllerhauteurTaille,
-                  widget.client.hauteurTaille.toString()),
-              champMesureClient('Tour de bras', _controllertourBras,
-                  widget.client.tourBras.toString()),
-              champMesureClient('Longueur dos', _controllerlongueurDos,
-                  widget.client.longueurDos.toString()),
+                'Tour de poitrine',
+                _controllertourPoitrine,
+                widget.client.tourPoitrine.toString(),
+              ),
+              champMesureClient(
+                'Tour de taille',
+                _controllertourTaille,
+                widget.client.tourTaille.toString(),
+              ),
+              champMesureClient(
+                'Tour de bassin',
+                _controllertourBassin,
+                widget.client.tourBassin.toString(),
+              ),
+              champMesureClient(
+                'Tour de cuisse',
+                _controllertourCuisse,
+                widget.client.tourCuisse.toString(),
+              ),
+              champMesureClient(
+                'Hauteur bassin',
+                _controllerhauteurBassin,
+                widget.client.hauteurBassin.toString(),
+              ),
+              champMesureClient(
+                'Hauteur poitrine',
+                _controllerhauteurPoitrine,
+                widget.client.hauteurPoitrine.toString(),
+              ),
+              champMesureClient(
+                'Longueur epaule',
+                _controllerlongueurEpaule,
+                widget.client.longueurEpaule.toString(),
+              ),
+              champMesureClient(
+                'Longueur bras',
+                _controllerlongueurBras,
+                widget.client.longueurBras.toString(),
+              ),
+              champMesureClient(
+                'Longueur Bras-coude',
+                _controllerlongueurBrasCoude,
+                widget.client.longueurBrasCoude.toString(),
+              ),
+              champMesureClient(
+                'Hauteur genou',
+                _controllerhauteurGenou,
+                widget.client.hauteurGenou.toString(),
+              ),
+              champMesureClient(
+                'Tour de hanche',
+                _controllertourHanche,
+                widget.client.tourHanche.toString(),
+              ),
+              champMesureClient(
+                'Hauteur taille ',
+                _controllerhauteurTaille,
+                widget.client.hauteurTaille.toString(),
+              ),
+              champMesureClient(
+                'Tour de bras',
+                _controllertourBras,
+                widget.client.tourBras.toString(),
+              ),
+              champMesureClient(
+                'Longueur dos',
+                _controllerlongueurDos,
+                widget.client.longueurDos.toString(),
+              ),
             ]),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                return modifierClient();
+              },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 20),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
