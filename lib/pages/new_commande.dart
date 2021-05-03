@@ -140,8 +140,13 @@ class ClientItemWidget extends StatelessWidget {
               TextButton(
                 child: Text('non'),
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(DetailClient.routeName);
+                  print(client.toMap());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailClient(client: client),
+                    ),
+                  );
                 },
               ),
             ],

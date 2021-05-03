@@ -1,5 +1,6 @@
 import 'package:couture_manager/database/couture_database.dart';
 import 'package:couture_manager/model/client.dart';
+import 'package:couture_manager/pages/client_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -31,36 +32,86 @@ class _DetailClientState extends State<DetailClient> {
   TextEditingController _controllerlongueurDos = TextEditingController();
   TextEditingController _controllerlongueurBras = TextEditingController();
 
-  void modifierClient() {
-    // final clientUpdate = Client(
-    //   id: widget.client.id,
-    //   nom: _controllernom.text,
-    //   prenom: _controllerprenom.text,
-    //   telephone: _controllertelephone.text,
-    //   dateEntree: widget.client.dateEntree,
-    //   tourPoitrine: _controllertourPoitrine.text,
-    //   tourTaille: _controllertourTaille.text,
-    //   tourBassin: _controllertourBassin.text,
-    //   tourCuisse: _controllertourCuisse.text,
-    //   hauteurBassin: _controllerhauteurBassin.text,
-    //   hauteurPoitrine: _controllerhauteurPoitrine.text,
-    //   longueurEpaule: _controllerlongueurEpaule.text,
-    //   longueurBrasCoude: _controllerlongueurBrasCoude.text,
-    //   hauteurGenou: _controllerhauteurGenou.text,
-    //   hauteurTaille: _controllerhauteurTaille.text,
-    //   tourHanche: _controllertourHanche.text,
-    //   tourBras: _controllertourBras.text,
-    //   longueurDos: _controllerlongueurDos.text,
-    //   longueurBras: _controllerlongueurBras.text,
-    // );
+  @override
+  void initState() {
+    _controllernom.text = widget.client.nom;
+    _controllerprenom.text = widget.client.prenom;
+    _controllertelephone.text = widget.client.telephone;
+    _controllertourPoitrine.text = widget.client.tourPoitrine;
+    _controllertourTaille.text = widget.client.tourTaille;
+    _controllertourBassin.text = widget.client.tourBassin;
+    _controllertourCuisse.text = widget.client.tourCuisse;
+    _controllerhauteurBassin.text = widget.client.hauteurBassin;
+    _controllerhauteurPoitrine.text = widget.client.hauteurPoitrine;
+    _controllerlongueurEpaule.text = widget.client.longueurEpaule;
+    _controllerlongueurBrasCoude.text = widget.client.longueurBrasCoude;
+    _controllerhauteurGenou.text = widget.client.hauteurGenou;
+    _controllerhauteurTaille.text = widget.client.hauteurTaille;
+    _controllertourHanche.text = widget.client.tourHanche;
+    _controllertourBras.text = widget.client.tourBras;
+    _controllerlongueurDos.text = widget.client.longueurDos;
+    _controllerlongueurBras.text = widget.client.longueurBras;
 
-    // CoutureDataBase.instance.updateclient(clientUpdate);
-    // print('cliennt modifier');
-    // Navigator.of(context).pop();
-    // // defaultListClient.add(nouveauClient);
+    super.initState();
   }
 
-  // void modifierclient() {}
+  void _updateClient() {
+    final nouveauClient = Client(
+        id: widget.client.id,
+        nom: _controllernom.text,
+        prenom: _controllerprenom.text,
+        telephone: _controllertelephone.text,
+        dateEntree: widget.client.dateEntree,
+        sexe: widget.client.sexe,
+        tourPoitrine: _controllertourPoitrine.text,
+        tourTaille: _controllertourTaille.text,
+        tourBassin: _controllertourBassin.text,
+        tourCuisse: _controllertourCuisse.text,
+        hauteurBassin: _controllerhauteurBassin.text,
+        hauteurPoitrine: _controllerhauteurPoitrine.text,
+        longueurEpaule: _controllerlongueurEpaule.text,
+        longueurBrasCoude: _controllerlongueurBrasCoude.text,
+        hauteurGenou: _controllerhauteurGenou.text,
+        hauteurTaille: _controllerhauteurTaille.text,
+        tourHanche: _controllertourHanche.text,
+        tourBras: _controllertourBras.text,
+        longueurDos: _controllerlongueurDos.text,
+        longueurBras: _controllerlongueurBras.text);
+    CoutureDataBase.instance.updateclient(nouveauClient);
+    Navigator.of(context).pop(true);
+  }
+
+  void _supprimerClient() {
+    CoutureDataBase.instance.deleteClient(widget.client.id);
+    Navigator.pushReplacementNamed(context, ClientPage.routeName);
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Supprimé le client ?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Voulez-vous vraiment supprimé ce client ?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(child: Text('oui'), onPressed: _supprimerClient),
+            TextButton(
+              child: Text('non'),
+              onPressed: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget champMesureClient(
     String label,
     TextEditingController controllerChamp,
@@ -120,27 +171,11 @@ class _DetailClientState extends State<DetailClient> {
     });
   }
 
-  // List<String> mensurations = [
-  //   "Tour de poitrine",
-  //   "Tour de taille",
-  //   "Tour de bassin",
-  //   "Tour de cuisse",
-  //   "Hauteur bassin",
-  //   "Hauteur poitrine",
-  //   "Longueur epaule",
-  //   "longueur bras",
-  //   "Hauteur bras-coude",
-  //   "Hauteur genou",
-  //   "Tour de hanche",
-  //   "Hauteur taille",
-  //   "Tour de bras",
-  //   "Longueur dos"
-  // ];
-
   @override
   Widget build(BuildContext context) {
     final widthDevice = MediaQuery.of(context).size.width;
     final heightDevice = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -149,6 +184,11 @@ class _DetailClientState extends State<DetailClient> {
           "detail Client",
           style: TextStyle(color: Colors.white),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.delete, color: Colors.white),
+              onPressed: _showMyDialog)
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -373,9 +413,7 @@ class _DetailClientState extends State<DetailClient> {
               ),
             ]),
             InkWell(
-              onTap: () {
-                return modifierClient();
-              },
+              onTap: _updateClient,
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 20),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),

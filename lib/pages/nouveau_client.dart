@@ -27,7 +27,7 @@ class _NouveauClientState extends State<NouveauClient> {
   final _controllertourBras = TextEditingController();
   final _controllerlongueurDos = TextEditingController();
   final _controllerlongueurBras = TextEditingController();
-  String _controllergenre;
+  String _controllergenre = "Femme";
 
   void ajouterClient() {
     final nouveauClient = Client(
@@ -50,11 +50,8 @@ class _NouveauClientState extends State<NouveauClient> {
         tourBras: _controllertourBras.text,
         longueurDos: _controllerlongueurDos.text,
         longueurBras: _controllerlongueurBras.text);
-    setState(() {
-      CoutureDataBase.instance.insertClient(nouveauClient);
-      Navigator.of(context).pop();
-      // defaultListClient.add(nouveauClient);
-    });
+    CoutureDataBase.instance.insertClient(nouveauClient);
+    Navigator.of(context).pop(true);
   }
 
   void _handleGenderChange(String value) {

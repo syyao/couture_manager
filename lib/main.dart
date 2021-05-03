@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         HistoriquePage.routeName: (context) => HistoriquePage(),
         NewCommande.routeName: (context) => NewCommande(),
         FormCommande.routeName: (context) => FormCommande(),
+        DetailClient.routeName: (context) => DetailClient(),
       },
     );
   }

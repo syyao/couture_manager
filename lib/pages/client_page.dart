@@ -82,6 +82,9 @@ class _ClientPageState extends State<ClientPage> {
                   itemBuilder: (context, i) {
                     return ClientItemWidget(
                       client: clientListe[i],
+                      refresh: () {
+                        setState(() {});
+                      },
                     );
                   },
                 ),
@@ -96,8 +99,15 @@ class _ClientPageState extends State<ClientPage> {
           color: Colors.white,
           size: 25,
         ),
-        onPressed: () {
-          Navigator.pushNamed(context, NouveauClient.routeName);
+        onPressed: () async {
+          var isClientCreated =
+              await Navigator.pushNamed(context, NouveauClient.routeName);
+          if (isClientCreated != null) {
+            bool _isClientCreated = isClientCreated as bool;
+            if (_isClientCreated) {
+              setState(() {});
+            }
+          }
         },
       ),
     );
@@ -106,8 +116,11 @@ class _ClientPageState extends State<ClientPage> {
 
 class ClientItemWidget extends StatelessWidget {
   final Client client;
+  final Function refresh;
 
-  const ClientItemWidget({Key key, @required this.client}) : super(key: key);
+  const ClientItemWidget(
+      {Key key, @required this.client, @required this.refresh})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,14 +130,19 @@ class ClientItemWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-          onTap: () {
-            print(client.toMap());
-            Navigator.push(
+          onTap: () async {
+            var isClientCreated = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => DetailClient(client: client),
               ),
             );
+            if (isClientCreated != null) {
+              bool _isClientCreated = isClientCreated as bool;
+              if (_isClientCreated) {
+                refresh();
+              }
+            }
           },
           child: Container(
             padding: EdgeInsets.all(10),
