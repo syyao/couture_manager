@@ -1,14 +1,11 @@
 import 'package:couture_manager/database/couture_database.dart';
 import 'package:couture_manager/model/client.dart';
-import 'package:couture_manager/pages/client_page.dart';
 import 'package:intl/intl.dart';
 
 import 'detailClients.dart';
 import 'drawerView.dart';
 import 'formulaire_commande.dart';
 import 'package:flutter/material.dart';
-
-import 'detail_Commande.dart';
 
 class NewCommande extends StatefulWidget {
   static const routeName = 'NewCommande';
@@ -18,17 +15,6 @@ class NewCommande extends StatefulWidget {
 }
 
 class _NewCommandeState extends State<NewCommande> {
-  // List<String> listCLients = [
-  //   "Sydney",
-  //   "Yao",
-  //   "Nath",
-  //   "Oceane",
-  //   "Samson",
-  //   "Tom",
-  //   "Nath",
-  //   "Boris"
-  // ];
-
   bool search = false;
   void dynamicSearch() {
     setState(() {
@@ -118,7 +104,7 @@ class ClientItemWidget extends StatelessWidget {
     Future<void> _showMyDialog() async {
       return showDialog<void>(
         context: context,
-        barrierDismissible: false, // user must tap button!
+        barrierDismissible: true, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Nouvelle commande'),
@@ -133,8 +119,12 @@ class ClientItemWidget extends StatelessWidget {
               TextButton(
                 child: Text('oui'),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(
-                      context, FormCommande.routeName);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FormCommande(client: client),
+                    ),
+                  );
                 },
               ),
               TextButton(

@@ -1,7 +1,20 @@
+import 'dart:io';
+
 import "package:flutter/material.dart";
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+
+import '../database/couture_database.dart';
+import '../model/client.dart';
+import '../model/commande.dart';
+import 'homePage.dart';
 
 class FormCommande extends StatefulWidget {
+  final Commande commande;
+  final Client client;
   static const routeName = "formulaire";
+
+  const FormCommande({Key key, this.commande, this.client}) : super(key: key);
 
   @override
   _FormCommandeState createState() => _FormCommandeState();
@@ -17,6 +30,233 @@ class _FormCommandeState extends State<FormCommande> {
       .map((String value) => DropdownMenuItem(value: value, child: Text(value)))
       .toList();
   String selectedVal = '2 jours avant';
+
+  String _selectedRappel = '2 jours avant';
+  DateTime _selectedDate = DateTime.now();
+  TextEditingController _dateHeureLivraison = TextEditingController();
+  TextEditingController _controllerDescription = TextEditingController();
+  TextEditingController _controllerMontant = TextEditingController();
+  TextEditingController _controlleravance = TextEditingController();
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate,
+        initialDatePickerMode: DatePickerMode.day,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2022));
+    if (picked != null)
+      setState(() {
+        _selectedDate = picked;
+        _dateHeureLivraison.text = DateFormat.yMd().format(_selectedDate);
+      });
+  }
+
+  void _handlerappelChange(String value) {
+    setState(() {
+      _selectedRappel = value;
+      print(value);
+    });
+  }
+
+  // TextEditingController _resteApayer() {
+  //   var montant = _controllerMontant.text as int;
+  //   var avance = _controlleravance.text as int;
+  //   int result = montant - avance;
+  // }
+
+  String _setEtat() {
+    return "en cours";
+  }
+
+  void _createCommande() {
+    final nouvelleCommande = Commande(
+        clientId: widget.client.id,
+        dateHeureLivraison: _selectedDate,
+        model: _model.path,
+        tissu: _tissu.path,
+        description: _controllerDescription.text,
+        montant: _controllerMontant.text,
+        avance: _controlleravance.text,
+        rappel: _selectedRappel,
+        etat: _setEtat());
+    CoutureDataBase.instance.createCommand(nouvelleCommande);
+    Navigator.pushReplacementNamed(context, HomePage.routeName);
+    print(nouvelleCommande.toMap());
+  }
+
+  File _model;
+  _imgFromCameraModel() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
+
+    setState(() {
+      _model = image;
+    });
+  }
+
+  _imgFromGalleryModel() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      _model = image;
+    });
+  }
+
+  File _tissu;
+  _imgFromCameraTissu() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
+
+    setState(() {
+      _tissu = image;
+    });
+  }
+
+  _imgFromGalleryTissu() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      _tissu = image;
+    });
+  }
+
+  void _showPickerModel(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      _imgFromGalleryModel();
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Galerie',
+                            style: TextStyle(
+                                color: Color.fromRGBO(56, 182, 255, 1)),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.photo_library_outlined,
+                            size: 30,
+                            color: Colors.grey,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _imgFromCameraModel();
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Appareil photo',
+                            style: TextStyle(
+                                color: Color.fromRGBO(56, 182, 255, 1)),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.camera_alt_outlined,
+                            size: 30,
+                            color: Colors.grey,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void _showPickerTissu(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      _imgFromGalleryTissu();
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Galerie',
+                            style: TextStyle(
+                                color: Color.fromRGBO(56, 182, 255, 1)),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.photo_library_outlined,
+                            size: 30,
+                            color: Colors.grey,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _imgFromCameraTissu();
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Appareil photo',
+                            style: TextStyle(
+                                color: Color.fromRGBO(56, 182, 255, 1)),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.camera_alt_outlined,
+                            size: 30,
+                            color: Colors.grey,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final widthDevice = MediaQuery.of(context).size.width;
@@ -27,7 +267,7 @@ class _FormCommandeState extends State<FormCommande> {
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
-          'Sydney Yao',
+          'Detail commande',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -47,24 +287,41 @@ class _FormCommandeState extends State<FormCommande> {
                     style: TextStyle(color: Colors.grey),
                   ),
                   SizedBox(height: 5),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      filled: true,
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0.5),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _dateHeureLivraison,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            filled: true,
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colors.transparent, width: 0.5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(56, 182, 255, 1),
+                                  width: 0.5),
+                            ),
+                            hintText: "09/04/2021",
+                          ),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
+                      IconButton(
+                        icon: Icon(
+                          Icons.date_range,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          _selectDate(context);
+                        },
                       ),
-                      hintText: "09/04/2021 16:31",
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -80,12 +337,8 @@ class _FormCommandeState extends State<FormCommande> {
                     style: TextStyle(color: Colors.grey),
                   ),
                   DropdownButton(
-                    value: selectedVal,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        selectedVal = newValue;
-                      });
-                    },
+                    value: _selectedRappel,
+                    onChanged: _handlerappelChange,
                     items: _dropDownMenuItems,
                   )
                 ],
@@ -106,17 +359,32 @@ class _FormCommandeState extends State<FormCommande> {
                     SizedBox(
                       height: 5,
                     ),
-                    Container(
-                        height: heightDevice / 5,
-                        width: heightDevice / 5,
-                        decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Icon(
-                          Icons.camera_alt_rounded,
-                          color: Colors.grey,
-                          size: 25,
-                        )),
+                    InkWell(
+                      onTap: () {
+                        _showPickerModel(context);
+                      },
+                      child: _model != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.file(
+                                _model,
+                                height: heightDevice / 5,
+                                width: heightDevice / 5,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Container(
+                              height: heightDevice / 5,
+                              width: heightDevice / 5,
+                              decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Icon(
+                                Icons.camera_alt_rounded,
+                                color: Colors.grey,
+                                size: 25,
+                              )),
+                    ),
                   ],
                 ),
                 Column(
@@ -128,19 +396,34 @@ class _FormCommandeState extends State<FormCommande> {
                     SizedBox(
                       height: 5,
                     ),
-                    Container(
-                        height: heightDevice / 5,
-                        width: heightDevice / 5,
-                        decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Icon(
-                          Icons.camera_alt_rounded,
-                          color: Colors.grey,
-                          size: 25,
-                        )),
+                    InkWell(
+                      onTap: () {
+                        _showPickerTissu(context);
+                      },
+                      child: _tissu != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.file(
+                                _tissu,
+                                height: heightDevice / 5,
+                                width: heightDevice / 5,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Container(
+                              height: heightDevice / 5,
+                              width: heightDevice / 5,
+                              decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Icon(
+                                Icons.camera_alt_rounded,
+                                color: Colors.grey,
+                                size: 25,
+                              )),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
             SizedBox(
@@ -160,6 +443,7 @@ class _FormCommandeState extends State<FormCommande> {
                     maxLines: 4,
                     minLines: 4,
                     expands: false,
+                    controller: _controllerDescription,
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -193,6 +477,8 @@ class _FormCommandeState extends State<FormCommande> {
                   ),
                   SizedBox(height: 5),
                   TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: _controllerMontant,
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -226,6 +512,8 @@ class _FormCommandeState extends State<FormCommande> {
                   ),
                   SizedBox(height: 5),
                   TextFormField(
+                    controller: _controlleravance,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -259,6 +547,7 @@ class _FormCommandeState extends State<FormCommande> {
                   ),
                   SizedBox(height: 5),
                   TextFormField(
+                    // controller: _resteApayer(),
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -274,30 +563,35 @@ class _FormCommandeState extends State<FormCommande> {
                         borderSide: BorderSide(
                             color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
                       ),
-                      hintText: "7000 fcfa",
+                      // hintText: _resteApayer().text,
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(height: 10),
-            Container(
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Color.fromRGBO(56, 182, 255, 1),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(4, 4),
-                    blurRadius: 5,
-                    color: Colors.grey.withOpacity(0.3),
-                  ),
-                ],
-              ),
-              child: Text(
-                "Enregistrer",
-                style: TextStyle(color: Colors.white),
+            InkWell(
+              onTap: () {
+                _createCommande();
+              },
+              child: Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color.fromRGBO(56, 182, 255, 1),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(4, 4),
+                      blurRadius: 5,
+                      color: Colors.grey.withOpacity(0.3),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  "Enregistrer",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ],

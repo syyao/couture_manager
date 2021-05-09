@@ -1,9 +1,20 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:couture_manager/database/couture_database.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../model/client.dart';
+import '../model/commande.dart';
 import 'detailClients.dart';
+import 'homePage.dart';
 
 class DetailCommande extends StatefulWidget {
+  final Commande commande;
+  final Client client;
   static const routeName = "DetailCommande";
+
+  const DetailCommande({Key key, this.commande, this.client}) : super(key: key);
 
   @override
   _DetailCommandeState createState() => _DetailCommandeState();
@@ -32,8 +43,10 @@ class _DetailCommandeState extends State<DetailCommande> {
               tag: 'model',
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                child: Image(
-                    image: AssetImage('images/mdl.jpg'), fit: BoxFit.cover),
+                child: Image.file(
+                  File(widget.commande.model),
+                  fit: BoxFit.cover,
+                ),
                 height: 400,
               ),
             ),
@@ -65,14 +78,49 @@ class _DetailCommandeState extends State<DetailCommande> {
               tag: 'tissu',
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                child: Image(
-                    image: AssetImage('images/tss.jpg'), fit: BoxFit.cover),
+                child: Image.file(
+                  File(widget.commande.tissu),
+                  fit: BoxFit.cover,
+                ),
                 height: 400,
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  void _supprimerCommmande() {
+    CoutureDataBase.instance.deleteCommande(widget.commande.id);
+    Navigator.pushReplacementNamed(context, HomePage.routeName);
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Supprimé la commmande ?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Voulez-vous vraiment supprimé cette commande ?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(child: Text('oui'), onPressed: _supprimerCommmande),
+            TextButton(
+              child: Text('non'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -88,6 +136,9 @@ class _DetailCommandeState extends State<DetailCommande> {
           "Details",
           style: TextStyle(color: Colors.white),
         ),
+        actions: [
+          IconButton(icon: Icon(Icons.delete), onPressed: _showMyDialog)
+        ],
       ),
       body: Column(
         children: [
@@ -109,18 +160,14 @@ class _DetailCommandeState extends State<DetailCommande> {
                     },
                     child: Hero(
                       tag: 'model',
-                      child: Container(
-                        height: heigthDevice / 5,
-                        width: heigthDevice / 5,
-                        decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
-                            image: DecorationImage(
-                                image: AssetImage('images/mdl.jpg'),
-                                fit: BoxFit.cover),
-                            borderRadius: BorderRadius.circular(15)),
-                        //   child: Image(
-                        //     image: AssetImage("images/pantalon.jpg"),
-                        // ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.file(
+                          File(widget.commande.model),
+                          height: heigthDevice / 5,
+                          width: heigthDevice / 5,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -138,19 +185,14 @@ class _DetailCommandeState extends State<DetailCommande> {
                     },
                     child: Hero(
                       tag: 'tissu',
-                      child: Container(
-                        height: heigthDevice / 5,
-                        width: heigthDevice / 5,
-                        decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(
-                              image: AssetImage('images/tss.jpg'),
-                              fit: BoxFit.cover),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.file(
+                          File(widget.commande.tissu),
+                          height: heigthDevice / 5,
+                          width: heigthDevice / 5,
+                          fit: BoxFit.cover,
                         ),
-                        //   child: Image(
-                        //     image: AssetImage("images/pantalon.jpg"),
-                        // ),
                       ),
                     ),
                   ),
@@ -172,10 +214,15 @@ class _DetailCommandeState extends State<DetailCommande> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                        icon: Icon(Icons.straighten_rounded),
-                        onPressed: () {
-                          Navigator.pushNamed(context, DetailClient.routeName);
-                        })
+                      icon: Icon(Icons.straighten_rounded),
+                      onPressed: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => DetailClient(),
+                        //     ));
+                      },
+                    )
                   ],
                 ),
                 Row(
@@ -188,7 +235,9 @@ class _DetailCommandeState extends State<DetailCommande> {
                           fontSize: 15),
                     ),
                     Text(
-                      "4 Avril 13:17",
+                      DateFormat.d()
+                          .add_yMMM()
+                          .format(widget.commande.dateHeureLivraison),
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ],
@@ -204,8 +253,65 @@ class _DetailCommandeState extends State<DetailCommande> {
                 ),
                 SizedBox(height: 10),
                 Container(
-                    child: Text(
-                        """chemise manche longue avec deux poches sur le cotéchemise manche longue avec deux poches sur le cotéchemise manche longue avec deux poches sur le cotéchemise manche longue avec deux poches sur le coté"""))
+                  child: Text(widget.commande.description),
+                  // Text("""chemise manche longue avec deux poches sur le
+                  //    cotéchemise manche longue avec deux poches sur le
+                  //     cotéchemise manche longue avec deux poches sur le
+                  //     cotéchemise manche longue avec deux poches sur le coté"""),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Montant : ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
+                    ),
+                    Text(
+                      // "date de livraison",
+                      "${widget.commande.montant} Fcfa",
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      'Avance : ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
+                    ),
+                    Text(
+                      // "date de livraison",
+                      "${widget.commande.avance} Fcfa",
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  children: [
+                    Text(
+                      'Reste a Payer : ',
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    Text(
+                      "${widget.commande.montant} Fcfa",
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
               ],
             ),
           )

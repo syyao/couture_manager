@@ -182,7 +182,22 @@ class ClientItemWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 20),
                 IconButton(
-                    icon: Icon(Icons.info_outline_rounded), onPressed: () {})
+                  icon: Icon(Icons.info_outline_rounded),
+                  onPressed: () async {
+                    var isClientCreated = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailClient(client: client),
+                      ),
+                    );
+                    if (isClientCreated != null) {
+                      bool _isClientCreated = isClientCreated as bool;
+                      if (_isClientCreated) {
+                        refresh();
+                      }
+                    }
+                  },
+                )
               ],
             ),
           ),

@@ -30,8 +30,8 @@ class Commande {
   String model;
   String tissu;
   String description;
-  int montant;
-  int avance;
+  String montant;
+  String avance;
   String rappel;
   String etat;
 

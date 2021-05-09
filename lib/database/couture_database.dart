@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../model/commande.dart';
+
 class CoutureDataBase {
   CoutureDataBase._();
   static final CoutureDataBase instance = CoutureDataBase._();
@@ -84,6 +86,16 @@ class CoutureDataBase {
     db.delete("client", where: "id = ?", whereArgs: [id]);
   }
 
+  Future<List<Client>> selectedClient(Commande commande) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db
+        .query("client", where: "id = ?", whereArgs: [commande.clientId]);
+
+    List<Client> clientListBYID =
+        List.generate(maps.length, (i) => Client.fromMap(maps[i]));
+    return clientListBYID;
+  }
+
 // methode pour recuperer la liste de recette dans ma base de donnée
   Future<List<Client>> clientList() async {
     final Database db = await database;
@@ -102,50 +114,41 @@ class CoutureDataBase {
     return clientList;
   }
 
-  List<Client> defaultListClient = [
-    // Client(
-    //   id: 1,
-    //   nom: "Yao",
-    //   prenom: "Sydney",
-    //   dateEntree: DateTime.now(),
-    //   sexe: "H",
-    //   telephone: "0123456789",
-    //   hauteurBassin: "123",
-    //   hauteurGenou: "67",
-    //   hauteurPoitrine: "89",
-    //   hauteurTaille: "32",
-    //   longueurBras: "39",
-    //   longueurBrasCoude: "32",
-    //   longueurDos: "12",
-    //   longueurEpaule: "33",
-    //   tourPoitrine: "11",
-    //   tourHanche: "87",
-    //   tourBassin: "54",
-    //   tourBras: "56",
-    //   tourCuisse: "78",
-    //   tourTaille: "62",
-    // ),
-    // Client(
-    //   id: 2,
-    //   nom: "Domi",
-    //   prenom: "Chelida",
-    //   dateEntree: DateTime.now(),
-    //   sexe: "F",
-    //   telephone: "0123456789",
-    //   hauteurBassin: "0",
-    //   hauteurGenou: "0",
-    //   hauteurPoitrine: "0",
-    //   hauteurTaille: "0",
-    //   longueurBras: "0",
-    //   longueurBrasCoude: "0",
-    //   longueurDos: "0",
-    //   longueurEpaule: "0",
-    //   tourPoitrine: "0",
-    //   tourHanche: "0",
-    //   tourBassin: "0",
-    //   tourBras: "0",
-    //   tourCuisse: "0",
-    //   tourTaille: "0",
-    // ),
-  ];
+  List<Client> defaultListClient = [];
+
+  List<Commande> defaultListCommande = [];
+// create commande dans la base de donnee
+  void createCommand(Commande commande) async {
+    final Database db = await database;
+// insertion dans la table recette
+    await db.insert(
+      'commande',
+      commande.toMap(),
+      // si la recette existe deja remplacer
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<Commande>> commandList() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('commande');
+    List<Commande> commandeList = List.generate(maps.length, (i) {
+      return Commande.fromMap(maps[i]);
+    });
+
+    if (commandeList.isEmpty) {
+      for (Commande commande in defaultListCommande) {
+        createCommand(commande);
+      }
+      commandeList = defaultListCommande;
+    }
+
+    return commandeList;
+  }
+//  suprimer une commande
+
+  void deleteCommande(int id) async {
+    final Database db = await database;
+    db.delete("commande", where: "id = ?", whereArgs: [id]);
+  }
 }
