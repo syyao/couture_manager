@@ -61,4 +61,11 @@ class Commande {
         "rappel": rappel,
         "etat": etat,
       };
+
+  int getResteApayer() {
+    var _montant = int.parse(montant);
+    var _avance = int.parse(avance);
+    var result = _montant - _avance;
+    return result;
+  }
 }

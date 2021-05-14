@@ -7,6 +7,8 @@ import 'drawerView.dart';
 import 'formulaire_commande.dart';
 import 'package:flutter/material.dart';
 
+import 'nouveau_client.dart';
+
 class NewCommande extends StatefulWidget {
   static const routeName = 'NewCommande';
 
@@ -27,7 +29,7 @@ class _NewCommandeState extends State<NewCommande> {
       iconTheme: IconThemeData(color: Colors.white),
       centerTitle: true,
       title: Text(
-        "Nouvelle commande",
+        "choix du client",
         style: TextStyle(color: Colors.white),
       ),
       actions: [
@@ -81,6 +83,9 @@ class _NewCommandeState extends State<NewCommande> {
                   itemCount: clientListe.length,
                   itemBuilder: (context, i) {
                     return ClientItemWidget(
+                      fonction: () {
+                        setState(() {});
+                      },
                       client: clientListe[i],
                     );
                   },
@@ -90,14 +95,33 @@ class _NewCommandeState extends State<NewCommande> {
               return Center(child: CircularProgressIndicator());
             }
           }),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 20,
+          ),
+          onPressed: () async {
+            var isclientCreated =
+                await Navigator.of(context).pushNamed(NouveauClient.routeName);
+            if (isclientCreated != null) {
+              bool _isclientCreated = isclientCreated as bool;
+              if (_isclientCreated) {
+                setState(() {});
+              }
+            }
+          }),
     );
   }
 }
 
 class ClientItemWidget extends StatelessWidget {
   final Client client;
+  final Function fonction;
 
-  const ClientItemWidget({Key key, @required this.client}) : super(key: key);
+  const ClientItemWidget(
+      {Key key, @required this.client, @required this.fonction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

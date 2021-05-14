@@ -96,6 +96,13 @@ class CoutureDataBase {
     return clientListBYID;
   }
 
+//  recuperer client par id
+  Future<Client> getclientById(int id) async {
+    final db = await database;
+    var result = await db.query("client", where: "id = ? ", whereArgs: [id]);
+    return result.isNotEmpty ? Client.fromMap(result.first) : Null;
+  }
+
 // methode pour recuperer la liste de recette dans ma base de donnée
   Future<List<Client>> clientList() async {
     final Database db = await database;
@@ -145,6 +152,53 @@ class CoutureDataBase {
 
     return commandeList;
   }
+
+  // recuperer les commandes par etat
+  Future<List<Commande>> commandListByEtat(String etat) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps =
+        await db.query('commande', where: "etat = ? ", whereArgs: [etat]);
+    List<Commande> commandeList = List.generate(maps.length, (i) {
+      return Commande.fromMap(maps[i]);
+    });
+
+    if (commandeList.isEmpty) {
+      for (Commande commande in defaultListCommande) {
+        createCommand(commande);
+      }
+      commandeList = defaultListCommande;
+    }
+
+    return commandeList;
+  }
+
+  // recuperer les commandesqui ne sont pas en cours
+  Future<List<Commande>> commandListHistorique(String etat) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps =
+        await db.query('commande', where: "etat != ? ", whereArgs: [etat]);
+    List<Commande> commandeList = List.generate(maps.length, (i) {
+      return Commande.fromMap(maps[i]);
+    });
+
+    if (commandeList.isEmpty) {
+      for (Commande commande in defaultListCommande) {
+        createCommand(commande);
+      }
+      commandeList = defaultListCommande;
+    }
+
+    return commandeList;
+  }
+  // mettre a jour une commande
+
+  void updateCommande(Commande commande) async {
+    final Database db = await database;
+
+    await db.update("commande", commande.toMap(),
+        where: "id = ?", whereArgs: [commande.id]);
+  }
+
 //  suprimer une commande
 
   void deleteCommande(int id) async {

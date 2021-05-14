@@ -20,8 +20,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+List<Commande> commandListEnCours;
+
+@override
 class _HomePageState extends State<HomePage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: HomeDrawer(),
@@ -37,11 +39,17 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: FutureBuilder<List<Commande>>(
-          future: CoutureDataBase.instance.commandList(),
+          future: CoutureDataBase.instance.commandListByEtat("en cours"),
           builder:
               (BuildContext context, AsyncSnapshot<List<Commande>> snapshot) {
             List<Commande> commandeListe = snapshot.data;
+
             if (snapshot.hasData) {
+              if (commandeListe.isEmpty) {
+                return Center(
+                  child: Text("Aucune commande en cours"),
+                );
+              }
               return Container(
                 padding: EdgeInsets.only(top: 10),
                 child: ListView.builder(
@@ -71,11 +79,32 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class CommandItem extends StatelessWidget {
+class CommandItem extends StatefulWidget {
   final Client client;
   final Commande commande;
 
   const CommandItem({Key key, this.client, this.commande}) : super(key: key);
+
+  @override
+  _CommandItemState createState() => _CommandItemState();
+}
+
+class _CommandItemState extends State<CommandItem> {
+  Client selectedClient;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getClient();
+    });
+  }
+
+  getClient() async {
+    selectedClient =
+        await CoutureDataBase.instance.getclientById(widget.commande.clientId);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final widthDevice = MediaQuery.of(context).size.width;
@@ -90,7 +119,8 @@ class CommandItem extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => DetailCommande(
-                  commande: commande,
+                  commande: widget.commande,
+                  client: selectedClient,
                 ),
               ),
             );
@@ -118,26 +148,36 @@ class CommandItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'NomDuClient',
+                        selectedClient == null
+                            ? ''
+                            : '${selectedClient.nom} ${selectedClient.prenom}',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        'N° Tel: du client',
+                        selectedClient == null
+                            ? ''
+                            : '${selectedClient.telephone}',
                       ),
                       Text(
-                        '${DateFormat.d().add_yMMM().format(commande.dateHeureLivraison)}',
+                        '${DateFormat.d().add_yMMM().format(widget.commande.dateHeureLivraison)}',
                         style: TextStyle(),
                       ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.check_rounded,
-                            color: Colors.green,
-                            size: 20,
-                          ),
+                          widget.commande.etat == "rendu"
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                  size: 20,
+                                )
+                              : Icon(
+                                  Icons.close,
+                                  color: Colors.red,
+                                  size: 20,
+                                ),
                           Text(
-                            'Rendu',
+                            widget.commande.etat,
                             style: TextStyle(fontStyle: FontStyle.italic),
                           )
                         ],
@@ -150,7 +190,7 @@ class CommandItem extends StatelessWidget {
                     child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.file(
-                    File(commande.model),
+                    File(widget.commande.model),
                     height: heightDevice / 6,
                     fit: BoxFit.cover,
                   ),

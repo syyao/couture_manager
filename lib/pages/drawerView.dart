@@ -31,7 +31,7 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   Flexible(
-                    child: Text('lesyde@outlook.fr'),
+                    child: Text('dart@flutter.ci'),
                   ),
                 ],
               ),

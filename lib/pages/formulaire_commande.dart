@@ -43,7 +43,7 @@ class _FormCommandeState extends State<FormCommande> {
         context: context,
         initialDate: _selectedDate,
         initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2021),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2022));
     if (picked != null)
       setState(() {
@@ -59,11 +59,15 @@ class _FormCommandeState extends State<FormCommande> {
     });
   }
 
-  // TextEditingController _resteApayer() {
-  //   var montant = _controllerMontant.text as int;
-  //   var avance = _controlleravance.text as int;
-  //   int result = montant - avance;
-  // }
+  int _resteApayer() {
+    var sMontant =
+        _controllerMontant.text.isEmpty ? "0" : _controllerMontant.text;
+    var sAvance = _controlleravance.text.isEmpty ? "0" : _controlleravance.text;
+    var montant = int.parse(sMontant);
+    var avance = int.parse(sAvance);
+    var result = montant - avance;
+    return result;
+  }
 
   String _setEtat() {
     return "en cours";
@@ -546,26 +550,34 @@ class _FormCommandeState extends State<FormCommande> {
                     style: TextStyle(color: Colors.grey),
                   ),
                   SizedBox(height: 5),
-                  TextFormField(
-                    // controller: _resteApayer(),
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      filled: true,
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
-                      ),
-                      // hintText: _resteApayer().text,
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
                     ),
+                    child: Text(_resteApayer().toString()),
                   ),
+                  // TextFormField(
+                  // //  controller: _resteApayer(),
+                  //   decoration: InputDecoration(
+                  //     contentPadding:
+                  //         EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  //     filled: true,
+                  //     border: InputBorder.none,
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       borderSide:
+                  //           BorderSide(color: Colors.transparent, width: 0.5),
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       borderSide: BorderSide(
+                  //           color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
+                  //     ),
+                  //      hintText: _resteApayer().toString(),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

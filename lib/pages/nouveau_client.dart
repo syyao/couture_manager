@@ -77,11 +77,13 @@ class _NouveauClientState extends State<NouveauClient> {
           ),
           TextFormField(
             controller: controllerChamp,
+            maxLength: 3,
             onFieldSubmitted: (_) => ajouterClient,
             keyboardType: TextInputType.number,
             validator: (valid) =>
                 valid.trim().isEmpty ? "veuillez renseigner ce champ" : null,
             decoration: InputDecoration(
+                counterText: '',
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 filled: true,
@@ -140,6 +142,8 @@ class _NouveauClientState extends State<NouveauClient> {
                     Text('Nom', style: TextStyle(color: Colors.grey)),
                     SizedBox(height: 5),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: TextInputType.text,
                       controller: _controllernom,
                       validator: (valid) => valid.trim().isEmpty
                           ? "veuillez renseigner ce champ"
@@ -176,6 +180,8 @@ class _NouveauClientState extends State<NouveauClient> {
                     Text('Prenoms', style: TextStyle(color: Colors.grey)),
                     SizedBox(height: 5),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: TextInputType.text,
                       controller: _controllerprenom,
                       validator: (valid) => valid.trim().isEmpty
                           ? "veuillez renseigner ce champ"
@@ -215,11 +221,14 @@ class _NouveauClientState extends State<NouveauClient> {
                     ),
                     SizedBox(height: 5),
                     TextFormField(
+                      maxLength: 10,
                       controller: _controllertelephone,
                       onFieldSubmitted: (_) => ajouterClient,
                       keyboardType: TextInputType.phone,
-                      validator: (val) => val.length < 10 ? 'trop court' : null,
+                      validator: (val) =>
+                          (val.length < 10) ? 'trop court' : null,
                       decoration: InputDecoration(
+                        counterText: '',
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         filled: true,

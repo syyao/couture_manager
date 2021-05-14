@@ -132,8 +132,10 @@ class _DetailClientState extends State<DetailClient> {
           ),
           TextFormField(
             controller: controllerChamp,
+            maxLength: 3,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
+              counterText: '',
               contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               filled: true,
               border: InputBorder.none,
@@ -212,6 +214,8 @@ class _DetailClientState extends State<DetailClient> {
                   Text("Nom", style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 5),
                   TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
+                    keyboardType: TextInputType.text,
                     controller: _controllernom,
                     decoration: InputDecoration(
                       contentPadding:
@@ -243,8 +247,11 @@ class _DetailClientState extends State<DetailClient> {
                   Text('Prenoms', style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 5),
                   TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
+                    keyboardType: TextInputType.text,
                     controller: _controllerprenom,
                     decoration: InputDecoration(
+                      counterText: '',
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       filled: true,
@@ -277,9 +284,11 @@ class _DetailClientState extends State<DetailClient> {
                   ),
                   SizedBox(height: 5),
                   TextFormField(
+                    maxLength: 10,
                     controller: _controllertelephone,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
+                      counterText: '',
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       filled: true,
