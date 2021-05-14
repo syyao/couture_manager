@@ -73,6 +73,11 @@ class _ClientPageState extends State<ClientPage> {
               (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
             List<Client> clientListe = snapshot.data;
             if (snapshot.hasData) {
+              if (clientListe.isEmpty) {
+                return Center(
+                  child: Text("Aucun client"),
+                );
+              }
               return Container(
                 padding: EdgeInsets.only(top: 10),
                 child: ListView.separated(
