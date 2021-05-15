@@ -63,7 +63,7 @@ class _NouveauClientState extends State<NouveauClient> {
 
   Widget champMesure(String label, TextEditingController controllerChamp) {
     return Container(
-      width: MediaQuery.of(context).size.width / 3,
+      width: MediaQuery.of(context).size.width / 4,
       margin: EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

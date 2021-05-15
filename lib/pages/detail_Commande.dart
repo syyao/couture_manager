@@ -95,6 +95,7 @@ class _DetailCommandeState extends State<DetailCommande> {
     widget.commande.etat = "rendu";
     widget.commande.montant = widget.commande.avance;
     CoutureDataBase.instance.updateCommande(widget.commande);
+    Navigator.of(context).pop(true);
   }
 
   void _annulerCommmande() {
@@ -102,7 +103,7 @@ class _DetailCommandeState extends State<DetailCommande> {
       id: widget.commande.id, etat: "annulé");*/
     widget.commande.etat = "annulé";
     CoutureDataBase.instance.updateCommande(widget.commande);
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   Future<void> _showMyDialog() async {
@@ -179,7 +180,9 @@ class _DetailCommandeState extends State<DetailCommande> {
               color: Colors.red,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
           content: SingleChildScrollView(
             child: ListBody(

@@ -53,16 +53,16 @@ class HistoriquePage extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             }
           }),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 20,
-        ),
-        onPressed: () {
-          Navigator.of(context).pushNamed(NewCommande.routeName);
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //     size: 20,
+      //   ),
+      //   onPressed: () {
+      //     Navigator.of(context).pushNamed(NewCommande.routeName);
+      //   },
+      // ),
     );
   }
 }

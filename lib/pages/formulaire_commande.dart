@@ -498,7 +498,7 @@ class _FormCommandeState extends State<FormCommande> {
                         borderSide: BorderSide(
                             color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
                       ),
-                      hintText: "10 000 fcfa",
+                      hintText: "0",
                     ),
                   ),
                 ],
@@ -533,7 +533,7 @@ class _FormCommandeState extends State<FormCommande> {
                         borderSide: BorderSide(
                             color: Color.fromRGBO(56, 182, 255, 1), width: 0.5),
                       ),
-                      hintText: "3000 fcfa",
+                      hintText: "0",
                     ),
                   ),
                 ],

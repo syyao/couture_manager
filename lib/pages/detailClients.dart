@@ -187,9 +187,11 @@ class _DetailClientState extends State<DetailClient> {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          IconButton(
-              icon: Icon(Icons.delete, color: Colors.white),
-              onPressed: _showMyDialog)
+          // IconButton(
+          //     icon: Icon(Icons.delete, color: Colors.white),
+
+          //    onPressed: _showMyDialog
+          //     )
         ],
       ),
       body: SingleChildScrollView(

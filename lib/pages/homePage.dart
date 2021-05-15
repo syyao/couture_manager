@@ -57,6 +57,9 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (ctx, i) {
                     return CommandItem(
                       commande: commandeListe[i],
+                      refresh: () {
+                        setState(() {});
+                      },
                     );
                   },
                 ),
@@ -82,8 +85,10 @@ class _HomePageState extends State<HomePage> {
 class CommandItem extends StatefulWidget {
   final Client client;
   final Commande commande;
+  final Function refresh;
 
-  const CommandItem({Key key, this.client, this.commande}) : super(key: key);
+  const CommandItem({Key key, this.client, this.commande, this.refresh})
+      : super(key: key);
 
   @override
   _CommandItemState createState() => _CommandItemState();
@@ -114,17 +119,33 @@ class _CommandItemState extends State<CommandItem> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailCommande(
-                  commande: widget.commande,
-                  client: selectedClient,
-                ),
-              ),
-            );
+          onTap: () async {
+            var isClientCreated = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailCommande(
+                    commande: widget.commande,
+                    client: selectedClient,
+                  ),
+                ));
+            if (isClientCreated != null) {
+              bool _isClientCreated = isClientCreated as bool;
+              if (_isClientCreated) {
+                widget.refresh();
+              }
+            }
           },
+          // onTap: () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => DetailCommande(
+          //         commande: widget.commande,
+          //         client: selectedClient,
+          //       ),
+          //     ),
+          //   );
+          // },
           child: Container(
             width: widthDevice / 1.2,
             padding: EdgeInsets.all(10),
