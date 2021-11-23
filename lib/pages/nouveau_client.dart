@@ -61,6 +61,56 @@ class _NouveauClientState extends State<NouveauClient> {
     });
   }
 
+  List<Widget> listDeMesure = [];
+  TextEditingController _controllertitre = TextEditingController();
+  void addNewChamp() {
+    var champ;
+    champ = champMesure(_controllertitre.text, _controllertitre);
+    listDeMesure.add(champ);
+    setState(() {});
+    Navigator.of(context).pop();
+    setState(() {});
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Nom'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  controller: _controllertitre,
+                  decoration: InputDecoration(hintText: "Entrez un titre"),
+                )
+              ],
+            ),
+          ),
+          actions: [
+            InkWell(
+              onTap: addNewChamp,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(56, 182, 255, 1),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Text(
+                  "Ok",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget champMesure(String label, TextEditingController controllerChamp) {
     return Container(
       width: MediaQuery.of(context).size.width / 4,
@@ -121,220 +171,257 @@ class _NouveauClientState extends State<NouveauClient> {
       body: SingleChildScrollView(
         child: Form(
           key: _keyForm,
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Informations personnels",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: widthDevice / 1.2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Nom', style: TextStyle(color: Colors.grey)),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      textCapitalization: TextCapitalization.sentences,
-                      keyboardType: TextInputType.text,
-                      controller: _controllernom,
-                      validator: (valid) => valid.trim().isEmpty
-                          ? "veuillez renseigner ce champ"
-                          : null,
-                      onFieldSubmitted: (_) => ajouterClient,
-                      decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        filled: true,
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              BorderSide(color: Colors.transparent, width: 0.5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(56, 182, 255, 1),
-                              width: 0.5),
-                        ),
-                        hintText: "Nom",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 15),
-              Container(
-                width: widthDevice / 1.2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Prenoms', style: TextStyle(color: Colors.grey)),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      textCapitalization: TextCapitalization.sentences,
-                      keyboardType: TextInputType.text,
-                      controller: _controllerprenom,
-                      validator: (valid) => valid.trim().isEmpty
-                          ? "veuillez renseigner ce champ"
-                          : null,
-                      onFieldSubmitted: (_) => ajouterClient,
-                      decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        filled: true,
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              BorderSide(color: Colors.transparent, width: 0.5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(56, 182, 255, 1),
-                              width: 0.5),
-                        ),
-                        hintText: "prenoms",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 15),
-              Container(
-                width: widthDevice / 1.2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: Container(
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Telephone',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      maxLength: 10,
-                      controller: _controllertelephone,
-                      onFieldSubmitted: (_) => ajouterClient,
-                      keyboardType: TextInputType.phone,
-                      validator: (val) =>
-                          (val.length < 10) ? 'trop court' : null,
-                      decoration: InputDecoration(
-                        counterText: '',
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        filled: true,
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              BorderSide(color: Colors.transparent, width: 0.5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(56, 182, 255, 1),
-                              width: 0.5),
-                        ),
-                        hintText: "00 00 00 00 00",
-                      ),
+                      "Informations personnels",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Mensurations",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        Radio<String>(
-                          value: "Homme",
-                          groupValue: _controllergenre,
-                          onChanged: _handleGenderChange,
+                SizedBox(height: 20),
+                Container(
+                  width: widthDevice / 1.2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Nom', style: TextStyle(color: Colors.grey)),
+                      SizedBox(height: 5),
+                      TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+                        keyboardType: TextInputType.text,
+                        controller: _controllernom,
+                        validator: (valid) => valid.trim().isEmpty
+                            ? "veuillez renseigner ce champ"
+                            : null,
+                        onFieldSubmitted: (_) => ajouterClient,
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          filled: true,
+                          border: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Colors.transparent, width: 0.5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Color.fromRGBO(56, 182, 255, 1),
+                                width: 0.5),
+                          ),
+                          hintText: "Nom",
                         ),
-                        Text('Homme'),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        Radio<String>(
-                          value: "Femme",
-                          groupValue: _controllergenre,
-                          onChanged: _handleGenderChange,
-                        ),
-                        Text('Femme'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Wrap(children: [
-                champMesure('Tour de poitrine', _controllertourPoitrine),
-                champMesure('Tour de taille', _controllertourTaille),
-                champMesure('Tour de bassin', _controllertourBassin),
-                champMesure('Tour de cuisse', _controllertourCuisse),
-                champMesure('Hauteur bassin', _controllerhauteurBassin),
-                champMesure('Hauteur poitrine', _controllerhauteurPoitrine),
-                champMesure('Longueur epaule', _controllerlongueurEpaule),
-                champMesure('Longueur bras', _controllerlongueurBras),
-                champMesure(
-                    'Longueur Bras-coude', _controllerlongueurBrasCoude),
-                champMesure('Hauteur genou', _controllerhauteurGenou),
-                champMesure('Tour de hanche', _controllertourHanche),
-                champMesure('Hauteur taille', _controllerhauteurTaille),
-                champMesure('Tour de bras', _controllertourBras),
-                champMesure('Longueur dos', _controllerlongueurDos)
-              ]),
-              InkWell(
-                onTap: () {
-                  if (_keyForm.currentState.validate()) {
-                    // _keyForm.currentState.save();
-                    return ajouterClient();
-                  }
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Color.fromRGBO(56, 182, 255, 1),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(4, 4),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.3),
                       ),
                     ],
                   ),
-                  child: Text(
-                    "Enregistrer",
-                    style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  width: widthDevice / 1.2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Prenoms', style: TextStyle(color: Colors.grey)),
+                      SizedBox(height: 5),
+                      TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+                        keyboardType: TextInputType.text,
+                        controller: _controllerprenom,
+                        validator: (valid) => valid.trim().isEmpty
+                            ? "veuillez renseigner ce champ"
+                            : null,
+                        onFieldSubmitted: (_) => ajouterClient,
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          filled: true,
+                          border: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Colors.transparent, width: 0.5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Color.fromRGBO(56, 182, 255, 1),
+                                width: 0.5),
+                          ),
+                          hintText: "prenoms",
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              )
-            ],
+                SizedBox(height: 15),
+                Container(
+                  width: widthDevice / 1.2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Telephone',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SizedBox(height: 5),
+                      TextFormField(
+                        maxLength: 10,
+                        controller: _controllertelephone,
+                        onFieldSubmitted: (_) => ajouterClient,
+                        keyboardType: TextInputType.phone,
+                        validator: (val) =>
+                            (val.length < 10) ? 'trop court' : null,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          filled: true,
+                          border: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Colors.transparent, width: 0.5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Color.fromRGBO(56, 182, 255, 1),
+                                width: 0.5),
+                          ),
+                          hintText: "00 00 00 00 00",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Mensurations",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      child: Row(
+                        children: [
+                          Radio<String>(
+                            value: "Homme",
+                            groupValue: _controllergenre,
+                            onChanged: _handleGenderChange,
+                          ),
+                          Text('Homme'),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Row(
+                        children: [
+                          Radio<String>(
+                            value: "Femme",
+                            groupValue: _controllergenre,
+                            onChanged: _handleGenderChange,
+                          ),
+                          Text('Femme'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Wrap(
+                  children: [
+                    Wrap(
+                      children: listDeMesure.map((e) {
+                        return champMesure("label", _controllernom);
+                      }).toList(),
+                    ),
+                  ],
+                ),
+                InkWell(
+                  onTap: _showMyDialog,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color.fromRGBO(56, 182, 255, 1),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(4, 4),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      "créer un champ",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+
+                // Wrap(children: [
+                //   champMesure('Tour de poitrine', _controllertourPoitrine),
+                //   champMesure('Tour de taille', _controllertourTaille),
+                //   champMesure('Tour de bassin', _controllertourBassin),
+                //   champMesure('Tour de cuisse', _controllertourCuisse),
+                //   champMesure('Hauteur bassin', _controllerhauteurBassin),
+                //   champMesure('Hauteur poitrine', _controllerhauteurPoitrine),
+                //   champMesure('Longueur epaule', _controllerlongueurEpaule),
+                //   champMesure('Longueur bras', _controllerlongueurBras),
+                //   champMesure(
+                //       'Longueur Bras-coude', _controllerlongueurBrasCoude),
+                //   champMesure('Hauteur genou', _controllerhauteurGenou),
+                //   champMesure('Tour de hanche', _controllertourHanche),
+                //   champMesure('Hauteur taille', _controllerhauteurTaille),
+                //   champMesure('Tour de bras', _controllertourBras),
+                //   champMesure('Longueur dos', _controllerlongueurDos)
+                // ]),
+
+                InkWell(
+                  onTap: () {
+                    if (_keyForm.currentState.validate()) {
+                      // _keyForm.currentState.save();
+                      return ajouterClient();
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color.fromRGBO(56, 182, 255, 1),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(4, 4),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      "Enregistrer",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
